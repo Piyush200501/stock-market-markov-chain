@@ -1,0 +1,24 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+
+# Raw data — check redistribution terms before committing real NSE/SEBI data.
+# Keep large or licensed datasets out of git; document how to obtain them
+# in the README instead.
+data/raw/
+*.csv
+!examples/**/*.csv
