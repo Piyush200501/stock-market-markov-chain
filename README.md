@@ -1,5 +1,7 @@
 # Analyzing Stock Market Behavior Using Markov Chains with FII & DII Data
 
+**[→ View the interactive project website](https://YOUR-USERNAME.github.io/stock-market-markov-chain/)**
+
 A discrete-time Markov chain model of Nifty 50 regime transitions (Upward /
 Downward / Stagnant), conditioned on Foreign and Domestic Institutional
 Investor (FII/DII) net flows — built to test whether institutional capital
@@ -70,9 +72,19 @@ stock-market-markov-chain/
 │   └── monte_carlo_simulation.py # Algorithm 4: MCMC path simulation
 ├── examples/
 │   └── demo.py                   # End-to-end pipeline on synthetic data — runs out of the box
+├── docs/
+│   └── index.html                # Interactive project website (deploy via GitHub Pages)
 ├── requirements.txt
 └── README.md
 ```
+
+### Deploying the website
+
+The site in `docs/index.html` is a single self-contained file (no build
+step). To publish it with GitHub Pages: **Settings → Pages → Deploy from a
+branch → main → /docs**. It'll be live at
+`https://<your-username>.github.io/stock-market-markov-chain/` within a
+minute or two.
 
 ## Getting Started
 
