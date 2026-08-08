@@ -34,6 +34,14 @@ equity markets from pure foreign-flow dependence — with the important
 caveat that this is one methodology on one market over one time window,
 not a settled claim (see Limitations).
 
+**Independent replication:** re-running this exact methodology on a
+fresh, non-overlapping 687-day sample (Nov 2022 – Aug 2025, not used in
+the original study) reproduces the same shape of result — Downward
+persistence is 36.14% under sustained institutional selling versus 15.62%
+under sustained buying. This replication is what actually powers the
+[interactive website](https://YOUR-USERNAME.github.io/stock-market-markov-chain/)'s
+live model.
+
 ## Methodology
 
 1. **State space discretization** — daily Nifty 50 log returns are
@@ -71,7 +79,8 @@ stock-market-markov-chain/
 │   ├── validation.py             # Algorithm 3: Top-2 Probabilistic Accuracy
 │   └── monte_carlo_simulation.py # Algorithm 4: MCMC path simulation
 ├── examples/
-│   └── demo.py                   # End-to-end pipeline on synthetic data — runs out of the box
+│   ├── demo.py                   # End-to-end pipeline on synthetic data — runs out of the box
+│   └── demo_real_data.py         # Same pipeline on a real Nifty 50 + FII/DII CSV export
 ├── docs/
 │   └── index.html                # Interactive project website (deploy via GitHub Pages)
 ├── requirements.txt
@@ -101,15 +110,20 @@ regime, Top-2 accuracy on a held-out split, and a simulated 30-day path.
 
 ### Reproducing with real data
 
-Swap `generate_synthetic_data()` in `examples/demo.py` for a loader that
-returns:
-- `returns`: daily log returns of the Nifty 50 close price
-- `flows`: daily net FII or DII flow (Rs. crore)
+`examples/demo_real_data.py` runs this same pipeline on an actual
+Nifty 50 + FII/DII CSV export:
 
-Original data sources: NSE (National Stock Exchange of India) and SEBI
-(Securities and Exchange Board of India), April 2018 – October 2024
-(1,612 trading days). Redistribution terms depend on how you source this
-data — check before publishing raw data files publicly.
+```bash
+python examples/demo_real_data.py path/to/your_data.csv
+```
+
+Expected columns: `Date, Price, FII, DII, Net Institutional Flow` (or
+similar — see the script for details). Original data sources: NSE
+(National Stock Exchange of India) and SEBI (Securities and Exchange
+Board of India). Redistribution terms depend on how you source this
+data — check before publishing raw data files publicly; this repo keeps
+CSVs out of git by default (see `.gitignore`) and the live website only
+embeds derived matrices and aggregate statistics, never the raw series.
 
 ## Tech Stack
 
