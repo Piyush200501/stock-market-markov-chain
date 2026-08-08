@@ -363,7 +363,7 @@
 <section class="stage" id="state-space">
   <div class="wrap">
     <div class="stage-head"><span class="stage-num">02</span><h2 class="stage-title">Building the state space</h2></div>
-    <p class="stage-copy">Every trading day is classified as <strong>Upward</strong>, <strong>Downward</strong>, or <strong>Stagnant</strong> based on whether its log return crosses a symmetric threshold. Too tight, and noise gets mistaken for a regime shift. Too wide, and real momentum gets buried in "Stagnant." Drag the slider — this is live on a synthetic sample series, the same discretization logic used on the real Nifty 50 data.</p>
+    <p class="stage-copy">Every trading day is classified as <strong>Upward</strong>, <strong>Downward</strong>, or <strong>Stagnant</strong> based on whether its log return crosses a symmetric threshold. Too tight, and noise gets mistaken for a regime shift. Too wide, and real momentum gets buried in "Stagnant." Drag the slider through the same 0.20–0.40% range tested in the dissertation — this is live on a real, independent 687-day Nifty 50 sample.</p>
 
     <div class="panel">
       <div class="control-row">
@@ -386,7 +386,7 @@
 <section class="stage" id="regimes">
   <div class="wrap">
     <div class="stage-head"><span class="stage-num">03</span><h2 class="stage-title">Reading institutional flow</h2></div>
-    <p class="stage-copy">Fixed rupee-value cutoffs go stale as market size grows over a multi-year window. Instead, each day's net FII/DII flow is ranked against its own empirical distribution — anything above the <strong>75th percentile</strong> is Strongly Positive (SP), below the <strong>25th</strong> is Strongly Negative (SN), the rest is Neutral (N).</p>
+    <p class="stage-copy">Fixed rupee-value cutoffs go stale as market size grows over a multi-year window. Instead, each day's net FII/DII flow is ranked against its own empirical distribution — anything above the <strong>75th percentile</strong> is Strongly Positive (SP), below the <strong>25th</strong> is Strongly Negative (SN), the rest is Neutral (N). On this 687-day sample, that's roughly <strong>₹1,860 Cr</strong> and <strong>−₹432 Cr</strong>.</p>
 
     <div class="panel">
       <div class="pct-strip" id="pct-strip"></div>
@@ -402,7 +402,7 @@
 <section class="stage" id="conditional">
   <div class="wrap">
     <div class="stage-head"><span class="stage-num">04</span><h2 class="stage-title">The tug-of-war</h2></div>
-    <p class="stage-copy">Split the transition matrix by institutional regime, and the market's personality changes. Switch between regimes below to see how the odds of tomorrow's state shift depending on who was buying today.</p>
+    <p class="stage-copy">Split the transition matrix by institutional regime, and the market's personality changes. Switch between regimes below to see how the odds of tomorrow's state shift depending on who was buying today — computed on the real 687-day sample.</p>
 
     <div class="panel">
       <div class="seg" id="regime-toggle" role="group" aria-label="Select institutional regime">
@@ -447,7 +447,7 @@
 <section class="stage" id="findings">
   <div class="wrap">
     <div class="stage-head"><span class="stage-num">06</span><h2 class="stage-title">What the model found</h2></div>
-    <p class="stage-copy">These are the dissertation's actual empirical results on the real dataset — 1,612 trading days of Nifty 50 closes with matched FII/DII net flows, April 2018 to October 2024.</p>
+    <p class="stage-copy">These are the dissertation's actual empirical results on the original dataset — 1,612 trading days of Nifty 50 closes with matched FII/DII net flows, April 2018 to October 2024 — plus one independent replication on newer data.</p>
 
     <div class="findings-grid">
       <div class="fcard">
@@ -465,6 +465,10 @@
       <div class="fcard wide">
         <div class="big">23.06%</div>
         <div class="cap">The "DII shock absorber": under sustained Domestic Institutional buying, the market's long-run steady-state probability of sitting in a bear regime collapses to 23.06% — evidence that SIP-driven domestic liquidity has structurally decoupled Indian equities from pure foreign-flow dependence. (One methodology, one market, one time window — not a settled claim.)</div>
+      </div>
+      <div class="fcard wide">
+        <div class="big">36.1% <span style="font-size:1.3rem;color:var(--ink-faint)">vs</span> 15.6%</div>
+        <div class="cap"><strong>Independent replication.</strong> Re-running this exact methodology on a fresh, non-overlapping 687-day sample (Nov 2022 – Aug 2025, not used in the original study) reproduces the same shape of result: Downward persistence is 36.14% under sustained institutional selling versus just 15.62% under sustained buying. See the live model above — Section 05's "SN" and "SP" driving-matrix options are this exact replication data.</div>
       </div>
     </div>
   </div>
@@ -501,7 +505,7 @@
         <p>Department of Mathematics</p>
       </div>
     </div>
-    <div class="foot-bottom">Interactive sections use synthetic demo data to illustrate the methodology live. Section 06 reports the dissertation's actual results on real market data.</div>
+    <div class="foot-bottom">Sections 02–05 are computed from a real, independent 687-day Nifty 50 + FII/DII sample (04-Nov-2022 to 08-Aug-2025) using the exact methodology from the dissertation — only derived matrices and aggregate statistics are embedded here, not the raw price/flow series. Section 06 reports the dissertation's original 2018–2024 results alongside this replication.</div>
   </div>
 </footer>
 
@@ -566,19 +570,35 @@
     return path;
   }
 
-  /* ---------- Shared dataset ---------- */
-  const { returns: DATA_RETURNS, flows: DATA_FLOWS } = generateSyntheticData(1500, 42);
-  const DATA_REGIMES = classifyRegimes(DATA_FLOWS);
+  /* ---------- Real dataset (aggregate statistics only — see README) ----------
+     Computed from a real Nifty 50 + FII/DII sample, 04-Nov-2022 to 08-Aug-2025
+     (687 trading days), using the exact methodology in src/. Only derived
+     matrices and scalar statistics are embedded here — no raw price or flow
+     series — consistent with the data-handling note in the README. */
+  const REAL_DATA = {
+    sweep: {
+      "0.0020": { tpm: [[0.3927,0.2982,0.3091],[0.3957,0.3826,0.2217],[0.4144,0.337,0.2486]], dist: [0.4003,0.3362,0.2635] },
+      "0.0025": { tpm: [[0.3608,0.2784,0.3608],[0.3907,0.3581,0.2512],[0.3611,0.3148,0.3241]], dist: [0.3712,0.3144,0.3144] },
+      "0.0030": { tpm: [[0.3403,0.2353,0.4244],[0.3763,0.3041,0.3196],[0.3268,0.315,0.3583]], dist: [0.3464,0.2838,0.3697] },
+      "0.0035": { tpm: [[0.3151,0.1963,0.4886],[0.375,0.2898,0.3352],[0.2852,0.2852,0.4296]], dist: [0.3188,0.2576,0.4236] },
+      "0.0040": { tpm: [[0.299,0.1814,0.5196],[0.3681,0.2699,0.362],[0.2602,0.2602,0.4796]], dist: [0.2969,0.2387,0.4643] }
+    },
+    conditional: {
+      SN: [[0.4,0.2333,0.3667],[0.3976,0.3614,0.241],[0.339,0.322,0.339]],
+      N:  [[0.3083,0.2583,0.4333],[0.3038,0.3038,0.3924],[0.3542,0.3125,0.3333]],
+      SP: [[0.3636,0.2045,0.4318],[0.5,0.1562,0.3438],[0.2353,0.3137,0.451]]
+    },
+    expectedReturns: [0.007963, -0.008279, 0.000075],
+    p25Flow: -432.36,
+    p75Flow: 1860.14,
+    nDays: 687,
+    dateStart: '2022-11-04',
+    dateEnd: '2025-08-08'
+  };
   const STATE_NAMES = { 1: 'Upward', 2: 'Downward', 3: 'Stagnant' };
   const STATE_COLORS = { 1: 'up', 2: 'down', 3: 'stagnant' };
 
-  // expected return per state, computed from the synthetic sample (for the sparkline)
-  function expectedReturnsPerState(threshold) {
-    const states = discretizeReturns(DATA_RETURNS, threshold);
-    const sums = { 1: 0, 2: 0, 3: 0 }, counts = { 1: 0, 2: 0, 3: 0 };
-    states.forEach((s, i) => { sums[s] += DATA_RETURNS[i]; counts[s]++; });
-    return [1, 2, 3].map(s => (counts[s] ? sums[s] / counts[s] : 0));
-  }
+  function expectedReturnsPerState() { return REAL_DATA.expectedReturns; }
 
   /* ---------- Graph rendering ---------- */
   const NODES = {
@@ -636,12 +656,9 @@
   const stateBars = document.getElementById('state-bars');
   const tpmTable = document.getElementById('tpm-table');
 
-  function renderStateBars(states) {
-    const counts = { 1: 0, 2: 0, 3: 0 };
-    states.forEach(s => counts[s]++);
-    const total = states.length;
+  function renderStateBars(dist) {
     const rows = [1, 2, 3].map(s => {
-      const pct = ((counts[s] / total) * 100).toFixed(1);
+      const pct = (dist[s - 1] * 100).toFixed(1);
       return `<div class="state-bar-row">
         <span class="name">${STATE_NAMES[s]}</span>
         <span class="state-bar-track"><span class="state-bar-fill fill-${STATE_COLORS[s]}" style="width:${pct}%"></span></span>
@@ -666,11 +683,10 @@
   function refreshStateSpace() {
     const threshold = parseFloat(slider.value);
     threshVal.textContent = (threshold * 100).toFixed(2) + '%';
-    const states = discretizeReturns(DATA_RETURNS, threshold);
-    const matrix = estimateTPM(states);
-    renderStateBars(states);
-    renderTPM(tpmTable, matrix, null);
-    updateGraph('gs', matrix);
+    const entry = REAL_DATA.sweep[threshold.toFixed(4)];
+    renderStateBars(entry.dist);
+    renderTPM(tpmTable, entry.tpm, null);
+    updateGraph('gs', entry.tpm);
   }
   slider.addEventListener('input', refreshStateSpace);
   refreshStateSpace();
@@ -678,33 +694,27 @@
   /* ---------- Section 03: percentile strip ---------- */
   (function renderPctStrip() {
     const strip = document.getElementById('pct-strip');
-    const min = Math.min(...DATA_FLOWS), max = Math.max(...DATA_FLOWS);
-    const p25 = percentile(DATA_FLOWS, 25), p75 = percentile(DATA_FLOWS, 75);
-    const norm = v => ((v - min) / (max - min)) * 100;
     const colorFor = r => r === 'SN' ? 'var(--down)' : r === 'SP' ? 'var(--up)' : 'var(--stagnant)';
+    // Illustrative distribution shape (a stylized eCDF curve, not per-day real
+    // values — the real, published cutoffs are the P25/P75 labels below).
+    const illustrative = [8,14,18,22,27,31,35,38,41,44,47,50,53,56,59,62,65,68,71,74,77,80,83,86,89,92,95];
+    const regimeFor = pos => pos < 25 ? 'SN' : pos > 75 ? 'SP' : 'N';
 
-    let html = `<div class="pct-marker" style="left:${norm(p25)}%">P25</div>`;
-    html += `<div class="pct-marker" style="left:${norm(p75)}%">P75</div>`;
+    const fmtCr = v => (v < 0 ? '−₹' : '₹') + Math.abs(v).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+    let html = `<div class="pct-marker" style="left:25%">P25 · ${fmtCr(REAL_DATA.p25Flow)} Cr</div>`;
+    html += `<div class="pct-marker" style="left:75%">P75 · ${fmtCr(REAL_DATA.p75Flow)} Cr</div>`;
     html += `<div class="pct-track"></div>`;
-    html += `<div class="pct-region" style="left:0%; width:${norm(p25)}%; background:var(--down); opacity:0.35;"></div>`;
-    html += `<div class="pct-region" style="left:${norm(p25)}%; width:${(norm(p75) - norm(p25))}%; background:var(--stagnant); opacity:0.35;"></div>`;
-    html += `<div class="pct-region" style="left:${norm(p75)}%; width:${(100 - norm(p75))}%; background:var(--up); opacity:0.35;"></div>`;
-
-    // sample ~70 evenly-spaced days for a clean dot strip
-    const step = Math.floor(DATA_FLOWS.length / 70);
-    for (let i = 0; i < DATA_FLOWS.length; i += step) {
-      const v = DATA_FLOWS[i], r = DATA_REGIMES[i];
-      html += `<div class="pct-dot" style="left:${norm(v)}%; background:${colorFor(r)};"></div>`;
-    }
+    html += `<div class="pct-region" style="left:0%; width:25%; background:var(--down); opacity:0.35;"></div>`;
+    html += `<div class="pct-region" style="left:25%; width:50%; background:var(--stagnant); opacity:0.35;"></div>`;
+    html += `<div class="pct-region" style="left:75%; width:25%; background:var(--up); opacity:0.35;"></div>`;
+    illustrative.forEach(pos => {
+      html += `<div class="pct-dot" style="left:${pos}%; background:${colorFor(regimeFor(pos))};"></div>`;
+    });
     strip.innerHTML = html;
   })();
 
   /* ---------- Section 04: conditional heatmap ---------- */
-  const CONDITIONAL_TPMS = (() => {
-    const threshold = 0.003;
-    const states = discretizeReturns(DATA_RETURNS, threshold);
-    return buildConditionalTPMs(states, DATA_REGIMES);
-  })();
+  const CONDITIONAL_TPMS = REAL_DATA.conditional;
 
   const heatmapTable = document.getElementById('heatmap-table');
   const regimeNote = document.getElementById('regime-note');
@@ -734,7 +744,7 @@
 
   /* ---------- Section 05: simulation ---------- */
   document.getElementById('graph-sim').innerHTML = buildGraphSVG('sm');
-  const BASELINE_TPM = estimateTPM(discretizeReturns(DATA_RETURNS, 0.003));
+  const BASELINE_TPM = REAL_DATA.sweep["0.0030"].tpm;
   let simMatrixKey = 'baseline';
   function currentSimMatrix() { return simMatrixKey === 'baseline' ? BASELINE_TPM : CONDITIONAL_TPMS[simMatrixKey]; }
   updateGraph('sm', currentSimMatrix());
@@ -785,7 +795,7 @@
   async function runSim() {
     runBtn.disabled = true;
     simDot.style.display = 'block';
-    const expReturns = expectedReturnsPerState(0.003);
+    const expReturns = expectedReturnsPerState();
     const rng = mulberry32(Date.now() % 1e6);
     const path = runSimulation(1, currentSimMatrix(), 30, rng);
 
