@@ -148,9 +148,6 @@ embeds derived matrices and aggregate statistics, never the raw series.
 
 ## Author
 
-**Piyush Mittal** — B.Sc. (Hons) Mathematics, Shyam Lal College, University
-of Delhi. Supervised by Dr. Virender, Department of Mathematics.
+**Piyush Mittal** —  Supervised by Dr. Virender, Department of Mathematics.
 
-## License
 
-MIT — see [LICENSE](LICENSE).
