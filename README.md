@@ -11,7 +11,7 @@ and to challenge the strong-form Efficient Market Hypothesis (EMH).
 This repository implements the core methodology from my B.Sc. (Hons)
 Mathematics dissertation at Shyam Lal College, University of Delhi
 (supervised by Dr. Virender, May 2026). The full dissertation PDF is
-available on request / linked below.
+available linked below.
 
 ## Key Findings
 
