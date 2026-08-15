@@ -1,6 +1,6 @@
 # Analyzing Stock Market Behavior Using Markov Chains with FII & DII Data
 
-**[→ View the interactive project website](https://YOUR-USERNAME.github.io/stock-market-markov-chain/)**
+**[→ View the interactive project website](https://Piyush200501.github.io/stock-market-markov-chain/)**
 
 A discrete-time Markov chain model of Nifty 50 regime transitions (Upward /
 Downward / Stagnant), conditioned on Foreign and Domestic Institutional
@@ -39,7 +39,7 @@ fresh, non-overlapping 687-day sample (Nov 2022 – Aug 2025, not used in
 the original study) reproduces the same shape of result — Downward
 persistence is 36.14% under sustained institutional selling versus 15.62%
 under sustained buying. This replication is what actually powers the
-[interactive website](https://YOUR-USERNAME.github.io/stock-market-markov-chain/)'s
+[interactive website](https://Piyush200501.github.io/stock-market-markov-chain/)'s
 live model.
 
 ## Methodology
@@ -92,13 +92,13 @@ stock-market-markov-chain/
 The site in `docs/index.html` is a single self-contained file (no build
 step). To publish it with GitHub Pages: **Settings → Pages → Deploy from a
 branch → main → /docs**. It'll be live at
-`https://<your-username>.github.io/stock-market-markov-chain/` within a
+`https://<Piyush200501>.github.io/stock-market-markov-chain/` within a
 minute or two.
 
 ## Getting Started
 
 ```bash
-git clone https://github.com/<your-username>/stock-market-markov-chain.git
+git clone https://github.com/<Piyush200501>/stock-market-markov-chain.git
 cd stock-market-markov-chain
 pip install -r requirements.txt
 python examples/demo.py
