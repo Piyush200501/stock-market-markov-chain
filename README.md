@@ -148,6 +148,6 @@ embeds derived matrices and aggregate statistics, never the raw series.
 
 ## Author
 
-**Piyush Mittal** —  Supervised by Dr. Virender, Department of Mathematics.
+**Piyush Mittal** —  Supervised by Dr. Virender, Department of Mathematics Shyam Lal College.
 
 
