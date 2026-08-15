@@ -98,7 +98,7 @@ minute or two.
 ## Getting Started
 
 ```bash
-git clone https://github.com/<Piyush200501>/stock-market-markov-chain.git
+git clone https://github.com/Piyush200501/stock-market-markov-chain.git
 cd stock-market-markov-chain
 pip install -r requirements.txt
 python examples/demo.py
