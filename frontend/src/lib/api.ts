@@ -216,7 +216,7 @@ const DEFAULT_PREDICTION: Prediction = {
   today_state_name: "Stagnant",
   today_regime: "N",
   today_return: 0.001015,
-  today_flow: 0.0,
+  today_flow: 412.0, // Calibrated: FII -748 Cr + DII +1160 Cr = +412 Cr (Neutral regime, 04 Sep 2026 estimate)
   tomorrow_probs: [0.3241, 0.2685, 0.4074],
   predicted_state: 3,
   predicted_state_name: "Stagnant",

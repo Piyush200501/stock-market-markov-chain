@@ -269,14 +269,30 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
             </div>
           </div>
           <div>
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>Day t Net Flow</div>
-            <div style={{
-              fontFamily: "var(--font-mono)", fontSize: "0.85rem", fontWeight: 600,
-              color: prediction.today_flow >= 0 ? "var(--up)" : "var(--down)"
-            }}>
-              {prediction.today_flow >= 0 ? "+" : ""}
-              {prediction.today_flow.toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>
+              Day t Net Flow
+              {prediction.today_flow === 0 && (
+                <span style={{ marginLeft: 4, color: "var(--accent)", fontSize: "0.6rem" }}>· unavailable</span>
+              )}
             </div>
+            {prediction.today_flow === 0 ? (
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.78rem", color: "var(--ink-3)", fontStyle: "italic" }}>
+                NSE data unavailable
+              </div>
+            ) : (
+              <div>
+                <div style={{
+                  fontFamily: "var(--font-mono)", fontSize: "0.85rem", fontWeight: 600,
+                  color: prediction.today_flow > 0 ? "var(--up)" : "var(--down)"
+                }}>
+                  {prediction.today_flow > 0 ? "+" : ""}
+                  {prediction.today_flow.toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr
+                </div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.62rem", color: "var(--ink-3)", marginTop: 1 }}>
+                  FII + DII combined
+                </div>
+              </div>
+            )}
           </div>
           <div>
             <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>FII/DII Regime</div>
