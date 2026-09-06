@@ -22,3 +22,17 @@ Thumbs.db
 data/raw/
 *.csv
 !examples/**/*.csv
+
+# Node / Next.js
+node_modules/
+frontend/node_modules/
+.next/
+frontend/.next/
+frontend/out/
+.vercel
+
+# Scratch / temp files
+Untitled-1.py
+docs/fhfbhf.py
+backend/cache_data/*.json
+

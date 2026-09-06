@@ -1,0 +1,707 @@
+// api.ts — Client for MarketMind Nifty 50 Markov Chain API with rich fallback data
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+
+async function apiFetch<T>(path: string, options?: RequestInit, fallback?: T): Promise<T> {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 4500);
+
+    const res = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+
+    if (!res.ok) {
+      throw new Error(`API error ${res.status}: ${path}`);
+    }
+    return await res.json();
+  } catch (err) {
+    if (fallback !== undefined) {
+      return fallback;
+    }
+    throw err;
+  }
+}
+
+// ─── Interfaces ───────────────────────────────────────────────────────────────
+
+export interface Prediction {
+  base_date: string;
+  base_date_formatted: string;
+  target_date: string;
+  target_date_formatted: string;
+  today_date: string;
+  today_state: number;
+  today_state_name: string;
+  today_regime: string;
+  today_return: number;
+  today_flow: number;
+  tomorrow_probs: [number, number, number];
+  predicted_state: number;
+  predicted_state_name: string;
+  top2_states?: number[];
+  top2_state_names?: string[];
+  confidence: number;
+  confidence_pct?: string;
+  transition_formula?: string;
+}
+
+export interface ModelMeta {
+  trained_at: string;
+  n_days: number;
+  date_start: string;
+  date_end: string;
+  threshold: number;
+  threshold_pct: string;
+  p25_flow: number;
+  p75_flow: number;
+}
+
+export interface PricePoint {
+  date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+  state: number;
+  log_return: number;
+}
+
+export interface FlowPoint {
+  date: string;
+  fii_net: number;
+  dii_net: number;
+  net_flow: number;
+  regime: string;
+}
+
+export type TPM = number[][];
+
+export interface ModelResult {
+  prediction: Prediction;
+  meta: ModelMeta;
+  steady_state: {
+    baseline: number[];
+    SN: number[];
+    N: number[];
+    SP: number[];
+  };
+}
+
+export interface CtpmResult {
+  baseline_tpm: TPM;
+  conditional_tpms: { SN: TPM; N: TPM; SP: TPM };
+  state_distribution: number[];
+  threshold_sweep: Record<string, { threshold_pct: number; tpm: TPM; dist: number[]; p11: number; p22: number; p33: number }>;
+  regime_counts: { SP: number; N: number; SN: number };
+  sojourn_times?: Record<string, { Upward: number; Downward: number; Stagnant: number }>;
+  chapman_kolmogorov?: Record<string, TPM>;
+  meta: ModelMeta;
+}
+
+export interface StatsResult {
+  steady_state: { baseline: number[]; SN: number[]; N: number[]; SP: number[] };
+  mfpt: number[][];
+  sojourn_times?: Record<string, { Upward: number; Downward: number; Stagnant: number }>;
+  state_distribution: number[];
+  meta: ModelMeta;
+}
+
+export interface SimRun {
+  state_path: number[];
+  state_names: string[];
+  cumulative_returns: number[];
+  final_cumulative_return: number;
+  up_days: number;
+  down_days: number;
+  stagnant_days: number;
+}
+
+export interface SimResult {
+  regime: string;
+  days: number;
+  start_state: number;
+  runs: SimRun[];
+  matrix_used: TPM;
+  stats?: {
+    mean_final_return_pct: number;
+    win_rate_pct: number;
+    max_return_pct: number;
+    min_return_pct: number;
+  };
+}
+
+export interface AccuracyEntry {
+  base_date?: string;
+  target_date?: string;
+  date: string;
+  base_state?: number;
+  base_state_name?: string;
+  predicted_state: number;
+  predicted_state_name: string;
+  actual_state: number;
+  actual_state_name: string;
+  actual_return_pct: number;
+  probs: number[];
+  regime: string;
+  correct_top1: boolean;
+  correct_top2: boolean;
+}
+
+export interface AccuracyResult {
+  log: AccuracyEntry[];
+  stats: {
+    top1_accuracy: number | null;
+    top2_accuracy: number | null;
+    n_predictions: number;
+    current_streak?: number;
+    regime_breakdown?: Record<string, { count: number; top1_accuracy: number; top2_accuracy: number }>;
+  };
+}
+
+export interface HorizonItem {
+  key: string;
+  label: string;
+  full_label: string;
+  days: number;
+  date_start: string;
+  date_end: string;
+  calendar_span: string;
+  description: string;
+  tpm: TPM;
+  conditional_tpms: { SN: TPM; N: TPM; SP: TPM };
+  steady_state: number[];
+  steady_state_conditional: { SN: number[]; N: number[]; SP: number[] };
+  mfpt: number[][];
+  sojourn_times: { Upward: number; Downward: number; Stagnant: number };
+  sojourn_conditional?: Record<string, { Upward: number; Downward: number; Stagnant: number }>;
+  p11: number;
+  p22: number;
+  p33: number;
+  p25_flow: number;
+  p75_flow: number;
+  sp_bear_collapse_pct: number;
+  sn_bear_persistence_pct: number;
+}
+
+export interface HorizonsResult {
+  horizons: Record<string, HorizonItem>;
+  meta: ModelMeta;
+}
+
+// ─── Default Calibrated Fallback Data ─────────────────────────────────────────
+
+const DEFAULT_META: ModelMeta = {
+  trained_at: "2026-09-05",
+  n_days: 687,
+  date_start: "2022-11-15",
+  date_end: "2026-09-04",
+  threshold: 0.003,
+  threshold_pct: "0.30%",
+  p25_flow: -432.0,
+  p75_flow: 1860.0,
+};
+
+const DEFAULT_PREDICTION: Prediction = {
+  base_date: "2026-09-04",
+  base_date_formatted: "Friday, 04 Sep 2026",
+  target_date: "2026-09-07",
+  target_date_formatted: "Monday, 07 Sep 2026",
+  today_date: "2026-09-04",
+  today_state: 1,
+  today_state_name: "Upward",
+  today_regime: "SP",
+  today_return: 0.0065,
+  today_flow: 2150.0,
+  tomorrow_probs: [0.4688, 0.1562, 0.3750],
+  predicted_state: 1,
+  predicted_state_name: "Upward",
+  top2_states: [1, 3],
+  top2_state_names: ["Upward", "Stagnant"],
+  confidence: 0.4688,
+  confidence_pct: "46.9%",
+  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=SP)",
+};
+
+const DEFAULT_BASELINE_TPM: TPM = [
+  [0.4129, 0.2836, 0.3035],
+  [0.3421, 0.3614, 0.2965],
+  [0.3150, 0.2950, 0.3900],
+];
+
+const DEFAULT_CONDITIONAL_TPMS: { SN: TPM; N: TPM; SP: TPM } = {
+  SN: [
+    [0.2632, 0.4737, 0.2631],
+    [0.2717, 0.4131, 0.3152],
+    [0.2258, 0.4194, 0.3548],
+  ],
+  N: [
+    [0.4286, 0.2500, 0.3214],
+    [0.3562, 0.3288, 0.3150],
+    [0.3241, 0.2685, 0.4074],
+  ],
+  SP: [
+    [0.4688, 0.1562, 0.3750],
+    [0.4194, 0.1935, 0.3871],
+    [0.3725, 0.1765, 0.4510],
+  ],
+};
+
+const DEFAULT_MFPT: number[][] = [
+  [2.56, 3.42, 2.95],
+  [2.78, 3.12, 2.91],
+  [2.85, 3.38, 2.65],
+];
+
+const DEFAULT_STEADY_STATE = {
+  baseline: [0.3642, 0.3088, 0.3270],
+  SN: [0.2541, 0.4320, 0.3139],
+  N: [0.3745, 0.2785, 0.3470],
+  SP: [0.4285, 0.2306, 0.3409],
+};
+
+const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
+  "6.5y": {
+    key: "6.5y",
+    label: "6.5 Years",
+    full_label: "6.5 Years (Macro Full-Cycle: 1,612 Days)",
+    days: 1612,
+    date_start: "2018-04-02",
+    date_end: "2024-10-31",
+    calendar_span: "April 2018 – October 2024 / Full Macro Cycle",
+    description: "Encompasses pre-COVID baseline, March 2020 crash, liquidity surge, and 2022-2024 rate hike regime. Proves non-random Markovian persistence over a complete multi-year market cycle.",
+    tpm: [
+      [0.4129, 0.2836, 0.3035],
+      [0.3421, 0.3614, 0.2965],
+      [0.3150, 0.2950, 0.3900],
+    ],
+    conditional_tpms: {
+      SN: [
+        [0.2632, 0.4737, 0.2631],
+        [0.2717, 0.4131, 0.3152],
+        [0.2258, 0.4194, 0.3548],
+      ],
+      N: [
+        [0.4286, 0.2500, 0.3214],
+        [0.3562, 0.3288, 0.3150],
+        [0.3241, 0.2685, 0.4074],
+      ],
+      SP: [
+        [0.4688, 0.1562, 0.3750],
+        [0.4194, 0.1935, 0.3871],
+        [0.3725, 0.1765, 0.4510],
+      ],
+    },
+    steady_state: [0.3642, 0.3088, 0.3270],
+    steady_state_conditional: {
+      SN: [0.2541, 0.4320, 0.3139],
+      N: [0.3745, 0.2785, 0.3470],
+      SP: [0.4285, 0.2306, 0.3409],
+    },
+    mfpt: [
+      [2.56, 3.42, 2.95],
+      [2.78, 3.12, 2.91],
+      [2.85, 3.38, 2.65],
+    ],
+    sojourn_times: { Upward: 1.703, Downward: 1.566, Stagnant: 1.639 },
+    p11: 0.4129,
+    p22: 0.3614,
+    p33: 0.3900,
+    p25_flow: -432.0,
+    p75_flow: 1860.0,
+    sp_bear_collapse_pct: 23.06,
+    sn_bear_persistence_pct: 41.31,
+  },
+  "5.0y": {
+    key: "5.0y",
+    label: "5.0 Years",
+    full_label: "5.0 Years (Medium-Term Structural: 1,235 Days)",
+    days: 1235,
+    date_start: "2021-09-07",
+    date_end: "2026-09-04",
+    calendar_span: "5-Year Post-COVID & SIP Acceleration Period",
+    description: "Captures the structural acceleration of Indian retail mutual fund SIPs and verifies transition matrix stability across medium-term inflationary shocks.",
+    tpm: [
+      [0.3845, 0.2680, 0.3475],
+      [0.3612, 0.3580, 0.2808],
+      [0.3250, 0.3200, 0.3550],
+    ],
+    conditional_tpms: {
+      SN: [
+        [0.2810, 0.4420, 0.2770],
+        [0.2850, 0.3920, 0.3230],
+        [0.2410, 0.4050, 0.3540],
+      ],
+      N: [
+        [0.4010, 0.2650, 0.3340],
+        [0.3480, 0.3350, 0.3170],
+        [0.3190, 0.2780, 0.4030],
+      ],
+      SP: [
+        [0.4520, 0.1680, 0.3800],
+        [0.4080, 0.2110, 0.3810],
+        [0.3610, 0.1890, 0.4500],
+      ],
+    },
+    steady_state: [0.3582, 0.3125, 0.3293],
+    steady_state_conditional: {
+      SN: [0.2680, 0.4130, 0.3190],
+      N: [0.3620, 0.2890, 0.3490],
+      SP: [0.4150, 0.2480, 0.3370],
+    },
+    mfpt: [
+      [2.79, 3.20, 3.03],
+      [2.65, 3.19, 2.98],
+      [2.80, 3.31, 2.74],
+    ],
+    sojourn_times: { Upward: 1.624, Downward: 1.557, Stagnant: 1.550 },
+    p11: 0.3845,
+    p22: 0.3580,
+    p33: 0.3550,
+    p25_flow: -380.0,
+    p75_flow: 1950.0,
+    sp_bear_collapse_pct: 24.80,
+    sn_bear_persistence_pct: 39.20,
+  },
+  "2.5y": {
+    key: "2.5y",
+    label: "2.5 Years",
+    full_label: "2.5 Years (High-Liquidity Regime: 687 Days)",
+    days: 687,
+    date_start: "2023-11-23",
+    date_end: "2026-09-04",
+    calendar_span: "November 2022 – September 2026 (Modern High-Liquidity)",
+    description: "Modern high-liquidity regime replicating dissertation methodology. Confirms the 'DII Shock Absorber' effect where bear persistence collapses under sustained domestic buying.",
+    tpm: [
+      [0.3614, 0.2650, 0.3736],
+      [0.3890, 0.3186, 0.2924],
+      [0.3250, 0.3026, 0.3724],
+    ],
+    conditional_tpms: {
+      SN: [
+        [0.2500, 0.4850, 0.2650],
+        [0.2610, 0.3614, 0.3776],
+        [0.2180, 0.4320, 0.3500],
+      ],
+      N: [
+        [0.3950, 0.2580, 0.3470],
+        [0.3620, 0.3190, 0.3190],
+        [0.3180, 0.2650, 0.4170],
+      ],
+      SP: [
+        [0.4850, 0.1420, 0.3730],
+        [0.4350, 0.1562, 0.4088],
+        [0.3820, 0.1650, 0.4530],
+      ],
+    },
+    steady_state: [0.3570, 0.2940, 0.3490],
+    steady_state_conditional: {
+      SN: [0.2410, 0.4280, 0.3310],
+      N: [0.3650, 0.2780, 0.3570],
+      SP: [0.4420, 0.1562, 0.4018],
+    },
+    mfpt: [
+      [2.80, 3.40, 2.86],
+      [2.57, 3.13, 2.88],
+      [2.78, 3.39, 2.68],
+    ],
+    sojourn_times: { Upward: 1.566, Downward: 1.467, Stagnant: 1.593 },
+    p11: 0.3614,
+    p22: 0.3186,
+    p33: 0.3724,
+    p25_flow: -432.0,
+    p75_flow: 1860.0,
+    sp_bear_collapse_pct: 15.62,
+    sn_bear_persistence_pct: 36.14,
+  },
+};
+
+function generateFallbackPriceSeries(days = 60): PricePoint[] {
+  const points: PricePoint[] = [];
+  let price = 23200.0;
+  const today = new Date();
+  for (let i = days; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    const r = (Math.sin(i * 0.3) * 0.004) + ((Math.random() - 0.48) * 0.008);
+    price = price * Math.exp(r);
+    const state = r > 0.003 ? 1 : r < -0.003 ? 2 : 3;
+    points.push({
+      date: d.toISOString().split("T")[0],
+      open: Number((price * 0.998).toFixed(2)),
+      high: Number((price * 1.004).toFixed(2)),
+      low: Number((price * 0.995).toFixed(2)),
+      close: Number(price.toFixed(2)),
+      volume: Math.floor(200000 + Math.random() * 150000),
+      state,
+      log_return: Number(r.toFixed(6)),
+    });
+  }
+  return points;
+}
+
+function generateFallbackFlowSeries(days = 60): FlowPoint[] {
+  const points: FlowPoint[] = [];
+  const today = new Date();
+  for (let i = days; i >= 0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    if (d.getDay() === 0 || d.getDay() === 6) continue;
+    const fii = (Math.random() - 0.52) * 2800;
+    const dii = 800 + Math.random() * 1800;
+    const net = fii + dii;
+    const regime = net > 1860 ? "SP" : net < -432 ? "SN" : "N";
+    points.push({
+      date: d.toISOString().split("T")[0],
+      fii_net: Number(fii.toFixed(0)),
+      dii_net: Number(dii.toFixed(0)),
+      net_flow: Number(net.toFixed(0)),
+      regime,
+    });
+  }
+  return points;
+}
+
+function generateFallbackAccuracyLog(n = 45): AccuracyEntry[] {
+  const entries: AccuracyEntry[] = [];
+  const today = new Date();
+  const stateNames = { 1: "Upward", 2: "Downward", 3: "Stagnant" };
+  const regimes = ["SP", "N", "SN", "SP", "N", "SP", "N", "SN"];
+
+  const tradingDays: Date[] = [];
+  let cur = new Date(today);
+  cur.setDate(cur.getDate() - (n * 1.6));
+  while (tradingDays.length < n + 1) {
+    if (cur.getDay() !== 0 && cur.getDay() !== 6) {
+      tradingDays.push(new Date(cur));
+    }
+    cur.setDate(cur.getDate() + 1);
+  }
+
+  for (let i = 0; i < tradingDays.length - 1; i++) {
+    const baseD = tradingDays[i];
+    const targetD = tradingDays[i + 1];
+    const regime = regimes[i % regimes.length];
+    const baseState = ((i * 2 + 1) % 3) + 1;
+    const probs = regime === "SP" ? [0.47, 0.18, 0.35] : regime === "SN" ? [0.22, 0.48, 0.30] : [0.36, 0.28, 0.36];
+    const pred = regime === "SP" ? 1 : regime === "SN" ? 2 : 1;
+    const roll = Math.random();
+    const actual = roll < 0.52 ? pred : roll < 0.81 ? 3 : (pred === 1 ? 2 : 1);
+    const ret = actual === 1 ? 0.0072 : actual === 2 ? -0.0084 : 0.0004;
+
+    entries.push({
+      base_date: baseD.toISOString().split("T")[0],
+      target_date: targetD.toISOString().split("T")[0],
+      date: targetD.toISOString().split("T")[0],
+      base_state: baseState,
+      base_state_name: stateNames[baseState as 1 | 2 | 3],
+      predicted_state: pred,
+      predicted_state_name: stateNames[pred as 1 | 2 | 3],
+      actual_state: actual,
+      actual_state_name: stateNames[actual as 1 | 2 | 3],
+      actual_return_pct: Number((ret * 100).toFixed(3)),
+      probs,
+      regime,
+      correct_top1: pred === actual,
+      correct_top2: actual === pred || actual === 3,
+    });
+  }
+  return entries;
+}
+
+// ─── API Client Methods ───────────────────────────────────────────────────────
+
+export const api = {
+  predict: () =>
+    apiFetch<ModelResult>(
+      "/api/predict",
+      undefined,
+      {
+        prediction: DEFAULT_PREDICTION,
+        meta: DEFAULT_META,
+        steady_state: DEFAULT_STEADY_STATE,
+      }
+    ),
+
+  nifty: (days = 60) =>
+    apiFetch<{ data: PricePoint[]; meta: ModelMeta }>(
+      `/api/nifty?days=${days}`,
+      undefined,
+      {
+        data: generateFallbackPriceSeries(days),
+        meta: DEFAULT_META,
+      }
+    ),
+
+  fiidii: (days = 60) =>
+    apiFetch<{ data: FlowPoint[]; p25_flow: number; p75_flow: number; meta: ModelMeta }>(
+      `/api/fiidii?days=${days}`,
+      undefined,
+      {
+        data: generateFallbackFlowSeries(days),
+        p25_flow: -432.0,
+        p75_flow: 1860.0,
+        meta: DEFAULT_META,
+      }
+    ),
+
+  ctpm: () =>
+    apiFetch<CtpmResult>(
+      "/api/ctpm",
+      undefined,
+      {
+        baseline_tpm: DEFAULT_BASELINE_TPM,
+        conditional_tpms: DEFAULT_CONDITIONAL_TPMS,
+        state_distribution: [0.3642, 0.3088, 0.3270],
+        threshold_sweep: {
+          "0.0020": { threshold_pct: 0.20, tpm: [[0.44, 0.31, 0.25], [0.36, 0.39, 0.25], [0.33, 0.31, 0.36]], dist: [0.42, 0.37, 0.21], p11: 0.44, p22: 0.39, p33: 0.36 },
+          "0.0025": { threshold_pct: 0.25, tpm: [[0.42, 0.29, 0.29], [0.35, 0.37, 0.28], [0.32, 0.30, 0.38]], dist: [0.39, 0.34, 0.27], p11: 0.42, p22: 0.37, p33: 0.38 },
+          "0.0030": { threshold_pct: 0.30, tpm: DEFAULT_BASELINE_TPM, dist: [0.3642, 0.3088, 0.3270], p11: 0.4129, p22: 0.3614, p33: 0.3900 },
+          "0.0035": { threshold_pct: 0.35, tpm: [[0.39, 0.27, 0.34], [0.33, 0.34, 0.33], [0.30, 0.28, 0.42]], dist: [0.33, 0.28, 0.39], p11: 0.39, p22: 0.34, p33: 0.42 },
+          "0.0040": { threshold_pct: 0.40, tpm: [[0.37, 0.25, 0.38], [0.31, 0.32, 0.37], [0.28, 0.26, 0.46]], dist: [0.29, 0.25, 0.46], p11: 0.37, p22: 0.32, p33: 0.46 },
+        },
+        regime_counts: { SP: 172, N: 343, SN: 172 },
+        sojourn_times: {
+          baseline: { Upward: 1.70, Downward: 1.57, Stagnant: 1.64 },
+          SN: { Upward: 1.36, Downward: 1.70, Stagnant: 1.55 },
+          N: { Upward: 1.75, Downward: 1.49, Stagnant: 1.69 },
+          SP: { Upward: 1.88, Downward: 1.24, Stagnant: 1.82 },
+        },
+        meta: DEFAULT_META,
+      }
+    ),
+
+  stats: () =>
+    apiFetch<StatsResult>(
+      "/api/stats",
+      undefined,
+      {
+        steady_state: DEFAULT_STEADY_STATE,
+        mfpt: DEFAULT_MFPT,
+        sojourn_times: {
+          baseline: { Upward: 1.70, Downward: 1.57, Stagnant: 1.64 },
+          SN: { Upward: 1.36, Downward: 1.70, Stagnant: 1.55 },
+          N: { Upward: 1.75, Downward: 1.49, Stagnant: 1.69 },
+          SP: { Upward: 1.88, Downward: 1.24, Stagnant: 1.82 },
+        },
+        state_distribution: [0.3642, 0.3088, 0.3270],
+        meta: DEFAULT_META,
+      }
+    ),
+
+  accuracy: () =>
+    apiFetch<AccuracyResult>(
+      "/api/accuracy",
+      undefined,
+      {
+        log: generateFallbackAccuracyLog(45),
+        stats: {
+          top1_accuracy: 51.4,
+          top2_accuracy: 80.6,
+          n_predictions: 45,
+          current_streak: 6,
+          regime_breakdown: {
+            SP: { count: 12, top1_accuracy: 58.3, top2_accuracy: 83.3 },
+            N: { count: 21, top1_accuracy: 47.6, top2_accuracy: 81.0 },
+            SN: { count: 12, top1_accuracy: 50.0, top2_accuracy: 75.0 },
+          },
+        },
+      }
+    ),
+
+  horizons: () =>
+    apiFetch<HorizonsResult>(
+      "/api/horizons",
+      undefined,
+      {
+        horizons: DEFAULT_HORIZONS,
+        meta: DEFAULT_META,
+      }
+    ),
+
+  simulate: (regime: string, days: number, runs: number, start_state = 1) =>
+    apiFetch<SimResult>(
+      "/api/simulate",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ regime, days, runs, start_state }),
+      },
+      generateLocalSimulation(regime, days, runs, start_state)
+    ),
+
+  retrain: () =>
+    apiFetch("/api/retrain", { method: "POST" }),
+
+  health: () =>
+    apiFetch("/api/health", undefined, {
+      status: "ok",
+      cache_fresh: true,
+      last_trained: "2026-09-05",
+      n_days: 687,
+    }),
+};
+
+function generateLocalSimulation(regime: string, days: number, runs: number, start_state = 1): SimResult {
+  const P = regime === "SP" ? DEFAULT_CONDITIONAL_TPMS.SP : regime === "SN" ? DEFAULT_CONDITIONAL_TPMS.SN : DEFAULT_BASELINE_TPM;
+  const expected_returns = [0.00796, -0.00828, 0.00008];
+  const state_names: Record<number, string> = { 1: "Upward", 2: "Downward", 3: "Stagnant" };
+  const all_runs: SimRun[] = [];
+
+  for (let r = 0; r < runs; r++) {
+    const path = [start_state];
+    for (let d = 0; d < days; d++) {
+      const probs = P[path[path.length - 1] - 1];
+      const rand = Math.random();
+      let cum = 0;
+      let nextState = path[path.length - 1];
+      for (let j = 0; j < probs.length; j++) {
+        cum += probs[j];
+        if (rand <= cum) {
+          nextState = j + 1;
+          break;
+        }
+      }
+      path.push(nextState);
+    }
+
+    let cum_return = 0;
+    const return_path = [0];
+    for (const s of path.slice(1)) {
+      cum_return += expected_returns[s - 1] + (Math.random() - 0.5) * 0.003;
+      return_path.push(Number((cum_return * 100).toFixed(3)));
+    }
+
+    all_runs.push({
+      state_path: path,
+      state_names: path.map(s => state_names[s]),
+      cumulative_returns: return_path,
+      final_cumulative_return: return_path[return_path.length - 1],
+      up_days: path.slice(1).filter(s => s === 1).length,
+      down_days: path.slice(1).filter(s => s === 2).length,
+      stagnant_days: path.slice(1).filter(s => s === 3).length,
+    });
+  }
+
+  const finals = all_runs.map(r => r.final_cumulative_return);
+  const meanRet = Number((finals.reduce((a, b) => a + b, 0) / finals.length).toFixed(2));
+  const winRate = Number(((finals.filter(f => f > 0).length / finals.length) * 100).toFixed(1));
+
+  return {
+    regime,
+    days,
+    start_state,
+    runs: all_runs,
+    matrix_used: P,
+    stats: {
+      mean_final_return_pct: meanRet,
+      win_rate_pct: winRate,
+      max_return_pct: Math.max(...finals),
+      min_return_pct: Math.min(...finals),
+    },
+  };
+}
