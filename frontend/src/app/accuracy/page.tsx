@@ -86,7 +86,7 @@ export default function AccuracyPage() {
       target_date_formatted: formatDateWithWeekday(target),
       base_state: entry.base_state || 3,
       base_state_name: entry.base_state_name || "Stagnant",
-      base_return_pct: entry.base_state === 1 ? 0.68 : entry.base_state === 2 ? -0.75 : 0.08,
+      base_return_pct: entry.base_return_pct ?? (entry.base_state === 1 ? 0.68 : entry.base_state === 2 ? -0.75 : 0.08),
       regime: entry.regime || "N",
       probs: entry.probs,
       predicted_state: entry.predicted_state,
