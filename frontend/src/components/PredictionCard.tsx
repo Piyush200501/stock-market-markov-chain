@@ -11,6 +11,21 @@ const REGIME_LABELS: Record<string, string> = {
   N:  "Neutral ↔ (Balanced Flow)",
   SN: "Strong Selling 📉 (Bearish Flow)",
 };
+const REGIME_SHORT: Record<string, string> = {
+  SP: "SP — Strong Buying",
+  N:  "N — Neutral",
+  SN: "SN — Strong Selling",
+};
+const REGIME_COLORS: Record<string, string> = {
+  SP: "var(--up)",
+  N:  "var(--stagnant)",
+  SN: "var(--down)",
+};
+const REGIME_BG: Record<string, string> = {
+  SP: "rgba(34,208,122,0.12)",
+  N:  "rgba(180,160,255,0.10)",
+  SN: "rgba(240,79,95,0.12)",
+};
 
 interface Props {
   prediction: Prediction;
@@ -150,10 +165,18 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
             }}>
               {prediction.predicted_state_name} State
             </div>
-            <div style={{ color: "var(--ink-2)", fontSize: "0.88rem" }}>
-              <strong style={{ color: "var(--ink)" }}>{(prediction.confidence * 100).toFixed(1)}% Probability</strong> &middot; Conditioned on Day t&apos;s{" "}
-              <span style={{ color: "var(--accent)", fontFamily: "var(--font-mono)", fontWeight: 600 }}>
-                {prediction.today_regime} Flow
+            <div style={{ color: "var(--ink-2)", fontSize: "0.88rem", display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+              <strong style={{ color: "var(--ink)" }}>{(prediction.confidence * 100).toFixed(1)}% Probability</strong>
+              <span style={{ color: "var(--ink-3)" }}>&middot; Conditioned on</span>
+              <span style={{
+                display: "inline-flex", alignItems: "center", gap: 4,
+                background: REGIME_BG[prediction.today_regime] || "rgba(180,160,255,0.10)",
+                color: REGIME_COLORS[prediction.today_regime] || "var(--stagnant)",
+                border: `1px solid ${REGIME_COLORS[prediction.today_regime] || "var(--stagnant)"}50`,
+                borderRadius: 6, padding: "2px 8px",
+                fontFamily: "var(--font-mono)", fontSize: "0.78rem", fontWeight: 700,
+              }}>
+                {REGIME_SHORT[prediction.today_regime] || prediction.today_regime}
               </span>
             </div>
           </div>
@@ -253,6 +276,23 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
             }}>
               {prediction.today_flow >= 0 ? "+" : ""}
               {prediction.today_flow.toLocaleString("en-IN", { maximumFractionDigits: 0 })} Cr
+            </div>
+          </div>
+          <div>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--ink-3)", textTransform: "uppercase", letterSpacing: "0.08em" }}>FII/DII Regime</div>
+            <div style={{
+              display: "inline-flex", alignItems: "center", gap: 6,
+              marginTop: 3,
+              background: REGIME_BG[prediction.today_regime] || "rgba(180,160,255,0.10)",
+              color: REGIME_COLORS[prediction.today_regime] || "var(--stagnant)",
+              border: `1px solid ${REGIME_COLORS[prediction.today_regime] || "var(--stagnant)"}60`,
+              borderRadius: 6, padding: "3px 10px",
+              fontFamily: "var(--font-mono)", fontSize: "0.82rem", fontWeight: 700,
+            }}>
+              <span style={{ fontSize: "0.7rem" }}>
+                {prediction.today_regime === "SP" ? "📈" : prediction.today_regime === "SN" ? "📉" : "↔"}
+              </span>
+              {prediction.today_regime === "SP" ? "SP · Strong Buy" : prediction.today_regime === "SN" ? "SN · Strong Sell" : "N · Neutral"}
             </div>
           </div>
           <div>
