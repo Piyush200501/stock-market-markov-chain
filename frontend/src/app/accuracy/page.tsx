@@ -233,28 +233,51 @@ export default function AccuracyPage() {
                 Regime-Conditioned Hit Rates
               </h3>
 
-              <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
-                  <span className="badge-up">SP (Strong Buying)</span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--up)", fontWeight: 700 }}>
-                    83.3% Top-2 (58.3% Top-1)
-                  </span>
-                </div>
+              {(() => {
+                const getRegimeStats = (regime: string) => {
+                  if (stats?.regime_breakdown?.[regime]) {
+                    return stats.regime_breakdown[regime];
+                  }
+                  const rEntries = log.filter(e => e.regime === regime);
+                  if (rEntries.length === 0) return { count: 0, top1_accuracy: 0, top2_accuracy: 0 };
+                  const top1 = rEntries.filter(e => e.correct_top1).length;
+                  const top2 = rEntries.filter(e => e.correct_top2).length;
+                  return {
+                    count: rEntries.length,
+                    top1_accuracy: Number(((top1 / rEntries.length) * 100).toFixed(1)),
+                    top2_accuracy: Number(((top2 / rEntries.length) * 100).toFixed(1)),
+                  };
+                };
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
-                  <span className="badge-stagnant">Neutral Range (N)</span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--ink)", fontWeight: 700 }}>
-                    81.0% Top-2 (47.6% Top-1)
-                  </span>
-                </div>
+                const sp = getRegimeStats("SP");
+                const n = getRegimeStats("N");
+                const sn = getRegimeStats("SN");
 
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
-                  <span className="badge-down">SN (Strong Selling)</span>
-                  <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--accent)", fontWeight: 700 }}>
-                    75.0% Top-2 (50.0% Top-1)
-                  </span>
-                </div>
-              </div>
+                return (
+                  <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
+                      <span className="badge-up">SP (Strong Buying) &middot; {sp.count} Days</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--up)", fontWeight: 700 }}>
+                        {sp.top2_accuracy}% Top-2 ({sp.top1_accuracy}% Top-1)
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
+                      <span className="badge-stagnant">Neutral Range (N) &middot; {n.count} Days</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--ink)", fontWeight: 700 }}>
+                        {n.top2_accuracy}% Top-2 ({n.top1_accuracy}% Top-1)
+                      </span>
+                    </div>
+
+                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", background: "var(--bg-2)", padding: "10px 14px", borderRadius: 8 }}>
+                      <span className="badge-down">SN (Strong Selling) &middot; {sn.count} Days</span>
+                      <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.88rem", color: "var(--accent)", fontWeight: 700 }}>
+                        {sn.top2_accuracy}% Top-2 ({sn.top1_accuracy}% Top-1)
+                      </span>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
           </div>

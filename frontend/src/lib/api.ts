@@ -532,6 +532,43 @@ function generateFallbackAccuracyLog(n = 45): AccuracyEntry[] {
   return entries;
 }
 
+function computeFallbackAccuracyStats(log: AccuracyEntry[]): AccuracyResult["stats"] {
+  if (!log || log.length === 0) {
+    return { top1_accuracy: 0, top2_accuracy: 0, n_predictions: 0, current_streak: 0, regime_breakdown: {} };
+  }
+  const n = log.length;
+  const top1Hits = log.filter(e => e.correct_top1).length;
+  const top2Hits = log.filter(e => e.correct_top2).length;
+
+  let streak = 0;
+  for (let i = log.length - 1; i >= 0; i--) {
+    if (log[i].correct_top2) streak++;
+    else break;
+  }
+
+  const breakdown: Record<string, { count: number; top1_accuracy: number; top2_accuracy: number }> = {};
+  for (const r of ["SP", "N", "SN"]) {
+    const rEntries = log.filter(e => e.regime === r);
+    if (rEntries.length > 0) {
+      const rTop1 = rEntries.filter(e => e.correct_top1).length;
+      const rTop2 = rEntries.filter(e => e.correct_top2).length;
+      breakdown[r] = {
+        count: rEntries.length,
+        top1_accuracy: Number(((rTop1 / rEntries.length) * 100).toFixed(1)),
+        top2_accuracy: Number(((rTop2 / rEntries.length) * 100).toFixed(1)),
+      };
+    }
+  }
+
+  return {
+    top1_accuracy: Number(((top1Hits / n) * 100).toFixed(1)),
+    top2_accuracy: Number(((top2Hits / n) * 100).toFixed(1)),
+    n_predictions: n,
+    current_streak: streak,
+    regime_breakdown: breakdown,
+  };
+}
+
 // ─── API Client Methods ───────────────────────────────────────────────────────
 
 export const api = {
@@ -612,25 +649,17 @@ export const api = {
       }
     ),
 
-  accuracy: () =>
-    apiFetch<AccuracyResult>(
+  accuracy: () => {
+    const fallbackLog = generateFallbackAccuracyLog(45);
+    return apiFetch<AccuracyResult>(
       "/api/accuracy",
       undefined,
       {
-        log: generateFallbackAccuracyLog(45),
-        stats: {
-          top1_accuracy: 51.4,
-          top2_accuracy: 80.6,
-          n_predictions: 45,
-          current_streak: 6,
-          regime_breakdown: {
-            SP: { count: 12, top1_accuracy: 58.3, top2_accuracy: 83.3 },
-            N: { count: 21, top1_accuracy: 47.6, top2_accuracy: 81.0 },
-            SN: { count: 12, top1_accuracy: 50.0, top2_accuracy: 75.0 },
-          },
-        },
+        log: fallbackLog,
+        stats: computeFallbackAccuracyStats(fallbackLog),
       }
-    ),
+    );
+  },
 
   horizons: () =>
     apiFetch<HorizonsResult>(
