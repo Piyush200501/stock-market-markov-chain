@@ -176,7 +176,12 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
             <strong>Top-2 Probabilistic Set for Next Session:</strong> &#123; {prediction.top2_state_names ? prediction.top2_state_names.join(", ") : `${prediction.predicted_state_name}, Stagnant`} &#125;
           </div>
           <div style={{ fontFamily: "var(--font-mono)", fontSize: "0.74rem", color: "var(--accent)" }}>
-            Cumulative: {((probs[0] + probs[2]) * 100 > 80 ? (probs[0] + probs[2]) * 100 : (probs[0] + probs[1]) * 100).toFixed(1)}%
+            Cumulative: {
+              (prediction.top2_states && prediction.top2_states.length === 2
+                ? ((probs[prediction.top2_states[0] - 1] || 0) + (probs[prediction.top2_states[1] - 1] || 0)) * 100
+                : ((probs[0] + probs[1] + probs[2]) - Math.min(...probs)) * 100
+              ).toFixed(1)
+            }%
           </div>
         </div>
 
