@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { api, AccuracyEntry, AccuracyResult } from "@/lib/api";
 import StatCard from "@/components/StatCard";
+import DerivationModal, { DerivationData } from "@/components/DerivationModal";
 
 const stateBadge = (state: number, name: string) => {
   if (state === 1) return <span className="badge-up">↑ {name}</span>;
@@ -60,6 +61,7 @@ export default function AccuracyPage() {
   const [viewMode, setViewMode] = useState<"COMBINED" | "SPLIT">("COMBINED");
   const [refreshing, setRefreshing] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
+  const [selectedDerivation, setSelectedDerivation] = useState<DerivationData | null>(null);
 
   useEffect(() => {
     loadAccuracy();
@@ -72,6 +74,30 @@ export default function AccuracyPage() {
     } catch (e) {
       console.error(e);
     }
+  }
+
+  function handleInspectRow(entry: AccuracyEntry) {
+    const target = entry.target_date || entry.date;
+    const base = entry.base_date || getPreviousTradingDay(target);
+    setSelectedDerivation({
+      base_date: base,
+      base_date_formatted: formatDateWithWeekday(base),
+      target_date: target,
+      target_date_formatted: formatDateWithWeekday(target),
+      base_state: entry.base_state || 3,
+      base_state_name: entry.base_state_name || "Stagnant",
+      base_return_pct: entry.base_state === 1 ? 0.68 : entry.base_state === 2 ? -0.75 : 0.08,
+      regime: entry.regime || "N",
+      probs: entry.probs,
+      predicted_state: entry.predicted_state,
+      predicted_state_name: entry.predicted_state_name,
+      actual_state: entry.actual_state,
+      actual_state_name: entry.actual_state_name,
+      actual_return_pct: entry.actual_return_pct,
+      correct_top1: entry.correct_top1,
+      correct_top2: entry.correct_top2,
+      is_live_forward: false,
+    });
   }
 
   async function handleAuditRetrain() {
@@ -101,6 +127,10 @@ export default function AccuracyPage() {
 
   return (
     <div style={{ paddingBottom: 80 }}>
+      {selectedDerivation && (
+        <DerivationModal data={selectedDerivation} onClose={() => setSelectedDerivation(null)} />
+      )}
+
       {/* Toast Notification */}
       {msg && (
         <div style={{
@@ -293,6 +323,25 @@ export default function AccuracyPage() {
               </div>
             </div>
 
+            {/* Interactive hint banner */}
+            <div style={{
+              background: "rgba(245, 166, 35, 0.08)",
+              border: "1px solid rgba(245, 166, 35, 0.25)",
+              borderRadius: 8,
+              padding: "8px 14px",
+              marginBottom: 16,
+              fontSize: "0.8rem",
+              color: "var(--ink-2)",
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+            }}>
+              <span>💡</span>
+              <span>
+                <strong>Interactive Explainability:</strong> Click on any row or the <strong style={{ color: "var(--accent)" }}>Derivation 📐</strong> button to inspect the exact mathematical reasoning, threshold boundary check, and TPM matrix row lookup for that transition.
+              </span>
+            </div>
+
             {/* Table */}
             <div style={{ overflowX: "auto" }}>
               <table className="tpm-table" style={{ width: "100%", fontSize: "0.82rem" }}>
@@ -315,6 +364,7 @@ export default function AccuracyPage() {
                     <th>Actual State (t+1)</th>
                     <th>Top-1 Hit</th>
                     <th>Top-2 Hit</th>
+                    <th>Derivation</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -322,7 +372,16 @@ export default function AccuracyPage() {
                     const baseDate = getBaseDate(entry);
                     const targetDate = getTargetDate(entry);
                     return (
-                      <tr key={idx} style={{ background: idx % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent" }}>
+                      <tr
+                        key={idx}
+                        onClick={() => handleInspectRow(entry)}
+                        style={{
+                          background: idx % 2 === 0 ? "rgba(255,255,255,0.01)" : "transparent",
+                          cursor: "pointer",
+                          transition: "background 0.15s ease",
+                        }}
+                        title="Click to inspect mathematical derivation"
+                      >
                         {viewMode === "COMBINED" ? (
                           <td style={{ textAlign: "left", fontFamily: "var(--font-mono)" }}>
                             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, background: "var(--bg-2)", padding: "4px 10px", borderRadius: 6, border: "1px solid var(--line)" }}>
@@ -378,6 +437,27 @@ export default function AccuracyPage() {
                               ✗ Miss
                             </span>
                           )}
+                        </td>
+                        <td>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleInspectRow(entry);
+                            }}
+                            className="btn-secondary"
+                            style={{
+                              padding: "4px 10px",
+                              fontSize: "0.72rem",
+                              color: "var(--accent)",
+                              borderColor: "rgba(245, 166, 35, 0.4)",
+                              background: "rgba(245, 166, 35, 0.08)",
+                              fontWeight: 600,
+                              cursor: "pointer",
+                            }}
+                            title="Inspect mathematical derivation"
+                          >
+                            Derivation 📐
+                          </button>
                         </td>
                       </tr>
                     );

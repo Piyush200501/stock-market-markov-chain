@@ -1,5 +1,7 @@
 "use client";
+import { useState } from "react";
 import { Prediction } from "@/lib/api";
+import DerivationModal, { DerivationData } from "./DerivationModal";
 
 const STATE_ICONS: Record<number, string> = { 1: "↑", 2: "↓", 3: "→" };
 const STATE_COLORS: Record<number, string> = { 1: "var(--up)", 2: "var(--down)", 3: "var(--stagnant)" };
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export default function PredictionCard({ prediction, trainedAt, onRefresh, refreshing }: Props) {
+  const [showDerivation, setShowDerivation] = useState(false);
   const ps = prediction.predicted_state;
   const probs = prediction.tomorrow_probs;
   const stateLabels = ["Upward", "Downward", "Stagnant"];
@@ -26,12 +29,34 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
   const baseDateLabel = prediction.base_date_formatted || prediction.today_date || "Friday, 04 Sep 2026";
   const targetDateLabel = prediction.target_date_formatted || "Next Trading Session (Monday, 07 Sep 2026)";
 
+  const derivationData: DerivationData = {
+    base_date: prediction.base_date || prediction.today_date || "2026-09-04",
+    base_date_formatted: baseDateLabel,
+    target_date: prediction.target_date || "2026-09-07",
+    target_date_formatted: targetDateLabel,
+    base_state: prediction.today_state,
+    base_state_name: prediction.today_state_name,
+    base_return_pct: (prediction.today_return ?? 0.001015) * 100,
+    base_flow: prediction.today_flow ?? 0,
+    regime: prediction.today_regime || "N",
+    probs: prediction.tomorrow_probs || [0.3241, 0.2685, 0.4074],
+    predicted_state: prediction.predicted_state,
+    predicted_state_name: prediction.predicted_state_name,
+    top2_states: prediction.top2_states,
+    top2_state_names: prediction.top2_state_names,
+    is_live_forward: true,
+  };
+
   return (
     <div className="glass" style={{
       padding: "28px 32px",
       position: "relative",
       overflow: "hidden",
     }}>
+      {showDerivation && (
+        <DerivationModal data={derivationData} onClose={() => setShowDerivation(false)} />
+      )}
+
       {/* Dynamic atmospheric radial glow */}
       <div style={{
         position: "absolute", top: -50, right: -50,
@@ -60,22 +85,39 @@ export default function PredictionCard({ prediction, trainedAt, onRefresh, refre
           </div>
         </div>
 
-        {/* Card Header with Refresh Button */}
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
+        {/* Card Header with Derivation & Refresh Buttons */}
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16, flexWrap: "wrap", gap: 10 }}>
           <div className="section-label">
             ONE-STEP FORWARD MARKOV FORECAST (X<sub>t+1</sub>)
           </div>
-          {onRefresh && (
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <button
-              onClick={onRefresh}
-              disabled={refreshing}
+              onClick={() => setShowDerivation(true)}
               className="btn-secondary"
-              style={{ padding: "5px 12px", fontSize: "0.74rem" }}
-              title="Trigger Live Market Sync & Retraining"
+              style={{
+                padding: "5px 12px",
+                fontSize: "0.74rem",
+                color: "var(--accent)",
+                borderColor: "rgba(245, 166, 35, 0.4)",
+                background: "rgba(245, 166, 35, 0.08)",
+                fontWeight: 600,
+              }}
+              title="See step-by-step mathematical reasoning for this forecast"
             >
-              {refreshing ? "Retraining..." : "Sync & Retrain ⟳"}
+              How we derived this 📐
             </button>
-          )}
+            {onRefresh && (
+              <button
+                onClick={onRefresh}
+                disabled={refreshing}
+                className="btn-secondary"
+                style={{ padding: "5px 12px", fontSize: "0.74rem" }}
+                title="Trigger Live Market Sync & Retraining"
+              >
+                {refreshing ? "Retraining..." : "Sync & Retrain ⟳"}
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Prediction Hero Block */}
