@@ -1,6 +1,6 @@
 # Analyzing Stock Market Behavior Using Markov Chains with FII & DII Data
 
-**[→ View the interactive project website](https://Piyush200501.github.io/stock-market-markov-chain/)**
+**[→ View the live interactive research platform](https://stock-market-markov-chain.vercel.app/)**
 
 A discrete-time Markov chain model of Nifty 50 regime transitions (Upward /
 Downward / Stagnant), conditioned on Foreign and Domestic Institutional
@@ -39,7 +39,7 @@ fresh, non-overlapping 687-day sample (Nov 2022 – Aug 2025, not used in
 the original study) reproduces the same shape of result — Downward
 persistence is 36.14% under sustained institutional selling versus 15.62%
 under sustained buying. This replication is what actually powers the
-[interactive website](https://Piyush200501.github.io/stock-market-markov-chain/)'s
+[interactive research platform](https://stock-market-markov-chain.vercel.app/)'s
 live model.
 
 ## Methodology
