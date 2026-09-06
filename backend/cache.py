@@ -58,6 +58,16 @@ def _generate_seed_accuracy_log(n_days: int = 45) -> List[dict]:
     Explicitly pairs Base Observation Day (t) with Next Prediction Day (t+1),
     ending on the most recent completed trading day (Friday, 04 Sep 2026).
     """
+    calibrated_file = Path(__file__).parent / "calibrated_real_ledger.json"
+    if calibrated_file.exists():
+        try:
+            with open(calibrated_file, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if isinstance(data, list) and len(data) >= n_days:
+                    return data[-n_days:]
+        except Exception as e:
+            logger.warning(f"Failed to load calibrated_real_ledger.json: {e}")
+
     rng = random.Random(42)
     end = date.today()
     log = []
