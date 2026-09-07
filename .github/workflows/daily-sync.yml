@@ -31,18 +31,25 @@ jobs:
       - name: Fetch latest Nifty data & regenerate ledger
         run: python .github/scripts/daily_sync.py
 
-      - name: Pull latest remote changes
+      - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main
-
-      - name: Commit and push if changed
-        run: |
           git add backend/calibrated_real_ledger.json frontend/src/lib/api.ts
           if git diff --staged --quiet; then
             echo "No changes to commit"
-          else
-            git commit -m "chore: auto daily sync $(date +'%Y-%m-%d')"
-            git push origin main
+            exit 0
           fi
+          git commit -m "chore: auto daily sync $(date +'%Y-%m-%d')"
+          for i in 1 2 3 4 5; do
+            echo "Attempt $i: pushing to main..."
+            git fetch origin main
+            git rebase -X theirs origin/main || git rebase --abort
+            if git push origin HEAD:main; then
+              echo "Successfully pushed daily sync to main!"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Error: Failed to push to main after 5 attempts"
+          exit 1

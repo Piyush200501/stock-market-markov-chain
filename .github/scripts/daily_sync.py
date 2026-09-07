@@ -228,7 +228,7 @@ def update_default_prediction(rows: list):
         count=1
     )
     API_TS_PATH.write_text(new_content, encoding="utf-8")
-    print(f"DEFAULT_PREDICTION updated: {base_date_str} → {target_date_str}, state={STATE_NAMES[base_state]}, regime={regime}, pred={STATE_NAMES[pred_state]}, conf={confidence*100:.1f}%")
+    print(f"DEFAULT_PREDICTION updated: {base_date_str} -> {target_date_str}, state={STATE_NAMES[base_state]}, regime={regime}, pred={STATE_NAMES[pred_state]}, conf={confidence*100:.1f}%")
 
 def main():
     print(f"=== Daily Market Sync: {datetime.now().strftime('%Y-%m-%d %H:%M IST')} ===")
@@ -238,7 +238,7 @@ def main():
 
     # 2. Build 45-day ledger
     ledger = build_ledger(rows)
-    print(f"Ledger built: {ledger[0]['base_date']} → {ledger[-1]['target_date']}, {len(ledger)} entries")
+    print(f"Ledger built: {ledger[0]['base_date']} -> {ledger[-1]['target_date']}, {len(ledger)} entries")
 
     top1 = sum(1 for e in ledger if e["correct_top1"])
     top2 = sum(1 for e in ledger if e["correct_top2"])

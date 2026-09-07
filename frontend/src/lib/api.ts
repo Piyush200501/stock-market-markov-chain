@@ -207,24 +207,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-04",
-  base_date_formatted: "Friday, 04 Sep 2026",
-  target_date: "2026-09-07",
-  target_date_formatted: "Monday, 07 Sep 2026",
-  today_date: "2026-09-04",
-  today_state: 3,
-  today_state_name: "Stagnant",
-  today_regime: "N",
-  today_return: 0.001015,
-  today_flow: -685.0, // Auto-synced: last regime=SN
-  tomorrow_probs: [0.3241, 0.2685, 0.4074],
-  predicted_state: 3,
-  predicted_state_name: "Stagnant",
-  top2_states: [3, 1],
-  top2_state_names: ["Stagnant", "Upward"],
-  confidence: 0.4074,
-  confidence_pct: "40.7%",
-  transition_formula: "P(X_{t+1} | X_t=Stagnant, R_t=N)",
+  base_date: "2026-09-07",
+  base_date_formatted: "Monday, 07 Sep 2026",
+  target_date: "2026-09-08",
+  target_date_formatted: "Tuesday, 08 Sep 2026",
+  today_date: "2026-09-07",
+  today_state: 2,
+  today_state_name: "Downward",
+  today_regime: "SP",
+  today_return: -0.497302,
+  today_flow: 2764.66, // Auto-synced 2026-09-07
+  tomorrow_probs: [0.4194, 0.1935, 0.3871],
+  predicted_state: 1,
+  predicted_state_name: "Upward",
+  top2_states: [1, 3],
+  top2_state_names: ["Upward", "Stagnant"],
+  confidence: 0.4194,
+  confidence_pct: "41.9%",
+  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SP)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
