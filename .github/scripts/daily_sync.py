@@ -181,6 +181,7 @@ def format_entry_ts(e: dict) -> str:
         f'    "base_state_name": "{e["base_state_name"]}",',
         f'    "base_return_pct": {e["base_return_pct"]},',
         f'    "regime": "{e["regime"]}",',
+        f'    "net_flow": {round(e.get("net_flow", 0.0), 2)},',
         f'    "predicted_state": {e["predicted_state"]},',
         f'    "predicted_state_name": "{e["predicted_state_name"]}",',
         f'    "actual_state": {e["actual_state"]},',
