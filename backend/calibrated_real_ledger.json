@@ -6,16 +6,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 0.655,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 4034.45,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.13,
     "probs": [
-      0.4286,
-      0.25,
-      0.3214
+      0.4688,
+      0.1562,
+      0.375
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -27,16 +28,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.13,
-    "regime": "SP",
+    "regime": "N",
+    "net_flow": 9.76,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -2.14,
     "probs": [
-      0.3725,
-      0.1765,
-      0.451
+      0.3241,
+      0.2685,
+      0.4074
     ],
     "correct_top1": false,
     "correct_top2": false
@@ -48,19 +50,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -2.14,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 2752.96,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.338,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.4194,
+      0.1935,
+      0.3871
     ],
-    "correct_top1": false,
-    "correct_top2": false
+    "correct_top1": true,
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-09",
@@ -70,6 +73,7 @@
     "base_state_name": "Upward",
     "base_return_pct": 0.338,
     "regime": "N",
+    "net_flow": 1524.93,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 1,
@@ -90,16 +94,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 1.014,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 4623.4,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.017,
     "probs": [
-      0.4286,
-      0.25,
-      0.3214
+      0.4688,
+      0.1562,
+      0.375
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -111,19 +116,20 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.017,
-    "regime": "N",
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "regime": "SN",
+    "net_flow": -890.57,
+    "predicted_state": 2,
+    "predicted_state_name": "Downward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.659,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.2258,
+      0.4194,
+      0.3548
     ],
-    "correct_top1": false,
-    "correct_top2": false
+    "correct_top1": true,
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-14",
@@ -132,19 +138,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.659,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2188.02,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.11,
     "probs": [
-      0.3562,
-      0.3288,
-      0.315
+      0.4194,
+      0.1935,
+      0.3871
     ],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-15",
@@ -153,16 +160,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.11,
-    "regime": "SP",
+    "regime": "N",
+    "net_flow": -30.9,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.024,
     "probs": [
-      0.3725,
-      0.1765,
-      0.451
+      0.3241,
+      0.2685,
+      0.4074
     ],
     "correct_top1": true,
     "correct_top2": true
@@ -174,19 +182,20 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.024,
-    "regime": "N",
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "regime": "SN",
+    "net_flow": -1219.15,
+    "predicted_state": 2,
+    "predicted_state_name": "Downward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.081,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.2258,
+      0.4194,
+      0.3548
     ],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-07-17",
@@ -196,6 +205,7 @@
     "base_state_name": "Upward",
     "base_return_pct": 1.081,
     "regime": "N",
+    "net_flow": 641.48,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
@@ -216,19 +226,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.394,
-    "regime": "SP",
+    "regime": "N",
+    "net_flow": 190.99,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.21,
     "probs": [
-      0.4194,
-      0.1935,
-      0.3871
+      0.3562,
+      0.3288,
+      0.315
     ],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-07-21",
@@ -237,19 +248,20 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.21,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": 993.28,
+    "predicted_state": 3,
+    "predicted_state_name": "Stagnant",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.795,
     "probs": [
-      0.2258,
-      0.4194,
-      0.3548
+      0.3241,
+      0.2685,
+      0.4074
     ],
-    "correct_top1": true,
-    "correct_top2": true
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-07-22",
@@ -258,19 +270,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.795,
-    "regime": "SP",
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
+    "regime": "SN",
+    "net_flow": -1237.46,
+    "predicted_state": 2,
+    "predicted_state_name": "Downward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.529,
     "probs": [
-      0.4194,
-      0.1935,
-      0.3871
+      0.2717,
+      0.4131,
+      0.3152
     ],
-    "correct_top1": false,
-    "correct_top2": false
+    "correct_top1": true,
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-23",
@@ -279,18 +292,19 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.529,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": -52.09,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.429,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.3562,
+      0.3288,
+      0.315
     ],
-    "correct_top1": true,
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -300,19 +314,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.429,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": 1560.78,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.957,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.3562,
+      0.3288,
+      0.315
     ],
-    "correct_top1": false,
-    "correct_top2": false
+    "correct_top1": true,
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-27",
@@ -322,6 +337,7 @@
     "base_state_name": "Upward",
     "base_return_pct": 0.957,
     "regime": "N",
+    "net_flow": 640.91,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
@@ -342,16 +358,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.044,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2419.49,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.098,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.3725,
+      0.1765,
+      0.451
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -363,16 +380,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 1.098,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 3979.89,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.276,
     "probs": [
-      0.4286,
-      0.25,
-      0.3214
+      0.4688,
+      0.1562,
+      0.375
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -385,6 +403,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": 0.276,
     "regime": "N",
+    "net_flow": 1759.48,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
@@ -405,16 +424,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.273,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2537.85,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.59,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.3725,
+      0.1765,
+      0.451
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -426,16 +446,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 1.59,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2493.44,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.645,
     "probs": [
-      0.4286,
-      0.25,
-      0.3214
+      0.4688,
+      0.1562,
+      0.375
     ],
     "correct_top1": false,
     "correct_top2": false
@@ -447,19 +468,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.645,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": 1510.33,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.04,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.3562,
+      0.3288,
+      0.315
     ],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-05",
@@ -468,18 +490,19 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.04,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 1939.75,
+    "predicted_state": 3,
+    "predicted_state_name": "Stagnant",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.046,
     "probs": [
-      0.2258,
-      0.4194,
-      0.3548
+      0.3725,
+      0.1765,
+      0.451
     ],
-    "correct_top1": false,
+    "correct_top1": true,
     "correct_top2": true
   },
   {
@@ -490,6 +513,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": 0.046,
     "regime": "SP",
+    "net_flow": 3995.74,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
@@ -511,6 +535,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": -0.266,
     "regime": "N",
+    "net_flow": 715.8,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
@@ -531,19 +556,20 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.054,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": 684.47,
+    "predicted_state": 3,
+    "predicted_state_name": "Stagnant",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.457,
     "probs": [
-      0.2258,
-      0.4194,
-      0.3548
+      0.3241,
+      0.2685,
+      0.4074
     ],
-    "correct_top1": true,
-    "correct_top2": true
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-11",
@@ -552,19 +578,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.457,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "N",
+    "net_flow": 283.32,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.146,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.3562,
+      0.3288,
+      0.315
     ],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-12",
@@ -573,18 +600,19 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.146,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 4839.16,
+    "predicted_state": 3,
+    "predicted_state_name": "Stagnant",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.164,
     "probs": [
-      0.2258,
-      0.4194,
-      0.3548
+      0.3725,
+      0.1765,
+      0.451
     ],
-    "correct_top1": false,
+    "correct_top1": true,
     "correct_top2": true
   },
   {
@@ -594,16 +622,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.164,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 3842.4,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.122,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.3725,
+      0.1765,
+      0.451
     ],
     "correct_top1": true,
     "correct_top2": true
@@ -616,6 +645,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": -0.122,
     "regime": "N",
+    "net_flow": 864.52,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 2,
@@ -636,19 +666,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.322,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2566.36,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.548,
     "probs": [
-      0.3562,
-      0.3288,
-      0.315
+      0.4194,
+      0.1935,
+      0.3871
     ],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-18",
@@ -658,6 +689,7 @@
     "base_state_name": "Downward",
     "base_return_pct": -0.548,
     "regime": "SP",
+    "net_flow": 4230.84,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
@@ -679,6 +711,7 @@
     "base_state_name": "Downward",
     "base_return_pct": -0.318,
     "regime": "SP",
+    "net_flow": 4381.71,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 1,
@@ -699,16 +732,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 0.636,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2954.35,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.083,
     "probs": [
-      0.4286,
-      0.25,
-      0.3214
+      0.4688,
+      0.1562,
+      0.375
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -721,6 +755,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": 0.083,
     "regime": "N",
+    "net_flow": 1581.43,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
@@ -742,6 +777,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": -0.136,
     "regime": "SP",
+    "net_flow": 3675.07,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 1,
@@ -762,16 +798,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 0.476,
-    "regime": "SP",
+    "regime": "N",
+    "net_flow": 1823.79,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.522,
     "probs": [
-      0.4688,
-      0.1562,
-      0.375
+      0.4286,
+      0.25,
+      0.3214
     ],
     "correct_top1": false,
     "correct_top2": false
@@ -783,19 +820,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.522,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 6927.79,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.484,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.4194,
+      0.1935,
+      0.3871
     ],
-    "correct_top1": true,
-    "correct_top2": true
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-27",
@@ -804,16 +842,17 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.484,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 4678.91,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.351,
     "probs": [
-      0.3562,
-      0.3288,
-      0.315
+      0.4194,
+      0.1935,
+      0.3871
     ],
     "correct_top1": true,
     "correct_top2": true
@@ -825,16 +864,17 @@
     "base_state": 1,
     "base_state_name": "Upward",
     "base_return_pct": 0.351,
-    "regime": "SP",
+    "regime": "N",
+    "net_flow": 144.13,
     "predicted_state": 1,
     "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.395,
     "probs": [
-      0.4688,
-      0.1562,
-      0.375
+      0.4286,
+      0.25,
+      0.3214
     ],
     "correct_top1": false,
     "correct_top2": false
@@ -846,19 +886,20 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.395,
-    "regime": "N",
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
+    "regime": "SN",
+    "net_flow": -3397.0,
+    "predicted_state": 2,
+    "predicted_state_name": "Downward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.102,
     "probs": [
-      0.3562,
-      0.3288,
-      0.315
+      0.2717,
+      0.4131,
+      0.3152
     ],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-09-01",
@@ -868,6 +909,7 @@
     "base_state_name": "Stagnant",
     "base_return_pct": -0.102,
     "regime": "SP",
+    "net_flow": 2990.32,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 2,
@@ -888,16 +930,17 @@
     "base_state": 2,
     "base_state_name": "Downward",
     "base_return_pct": -0.589,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 9501.35,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.172,
     "probs": [
-      0.2717,
-      0.4131,
-      0.3152
+      0.4194,
+      0.1935,
+      0.3871
     ],
     "correct_top1": false,
     "correct_top2": true
@@ -909,16 +952,17 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": -0.172,
-    "regime": "N",
+    "regime": "SP",
+    "net_flow": 2631.59,
     "predicted_state": 3,
     "predicted_state_name": "Stagnant",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.102,
     "probs": [
-      0.3241,
-      0.2685,
-      0.4074
+      0.3725,
+      0.1765,
+      0.451
     ],
     "correct_top1": true,
     "correct_top2": true
@@ -930,18 +974,19 @@
     "base_state": 3,
     "base_state_name": "Stagnant",
     "base_return_pct": 0.102,
-    "regime": "SN",
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "regime": "SP",
+    "net_flow": 5818.18,
+    "predicted_state": 3,
+    "predicted_state_name": "Stagnant",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.497,
     "probs": [
-      0.2258,
-      0.4194,
-      0.3548
+      0.3725,
+      0.1765,
+      0.451
     ],
-    "correct_top1": true,
-    "correct_top2": true
+    "correct_top1": false,
+    "correct_top2": false
   }
 ]
