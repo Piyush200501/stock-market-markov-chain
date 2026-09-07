@@ -207,7 +207,7 @@ def update_default_prediction(rows: list):
   today_state: {base_state},
   today_state_name: "{STATE_NAMES[base_state]}",
   today_regime: "{regime}",
-  today_return: {base_ret_pct},
+  today_return: {round(base_ret, 6)},
   today_flow: {round(net_flow, 2)}, // Auto-synced {date.today()}
   tomorrow_probs: [{probs[0]}, {probs[1]}, {probs[2]}],
   predicted_state: {pred_state},

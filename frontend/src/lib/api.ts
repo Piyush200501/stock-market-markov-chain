@@ -215,7 +215,7 @@ const DEFAULT_PREDICTION: Prediction = {
   today_state: 2,
   today_state_name: "Downward",
   today_regime: "SP",
-  today_return: -0.497302,
+  today_return: -0.004973,
   today_flow: 2764.66, // Auto-synced 2026-09-07
   tomorrow_probs: [0.4194, 0.1935, 0.3871],
   predicted_state: 1,
