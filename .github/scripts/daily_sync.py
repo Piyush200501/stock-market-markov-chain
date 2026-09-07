@@ -153,26 +153,82 @@ def patch_api_ts(ledger: list):
     API_TS_PATH.write_text(new_content, encoding="utf-8")
     print(f"api.ts patched with {len(ledger)} entries.")
 
-def update_default_prediction(ledger: list):
-    """Update DEFAULT_PREDICTION today_flow in api.ts based on latest ledger entry."""
-    # Last entry's regime drives the flow label shown on the dashboard
-    last = ledger[-1]
-    regime = last["regime"]
-    # Pick a representative flow value per regime
-    flow_map = {"SP": 2340.0, "N": 412.0, "SN": -685.0}
-    flow = flow_map.get(regime, 412.0)
+def get_next_trading_day(d: date) -> date:
+    """Skip weekends to get next trading session date."""
+    nxt = d + timedelta(days=1)
+    while nxt.weekday() >= 5:  # 5=Sat, 6=Sun
+        nxt += timedelta(days=1)
+    return nxt
+
+def format_date(d: date) -> str:
+    """Format like: Friday, 04 Sep 2026"""
+    return d.strftime("%A, %d %b %Y")
+
+def update_default_prediction(rows: list):
+    """
+    Fully update DEFAULT_PREDICTION in api.ts using the latest trading day's data.
+    Updates: base_date, target_date, state, regime, return, flow, probs, confidence.
+    """
+    import re
+
+    # Latest completed trading day
+    last  = rows[-1]
+    base_date_obj = last["Date"] if isinstance(last["Date"], date) else date.fromisoformat(str(last["Date"]))
+    base_ret      = float(last["log_return"])
+    base_state    = get_state(base_ret)
+    base_ret_pct  = round(base_ret * 100, 6)
+
+    # Simulate net flow for last day
+    net_flow   = simulate_flow(base_ret, len(rows) - 1)
+    regime     = get_regime(net_flow)
+
+    # Next trading day forecast
+    target_date_obj = get_next_trading_day(base_date_obj)
+
+    # Markov probs
+    tpm_row   = COND_TPMS[regime][base_state - 1]
+    probs     = [round(p, 4) for p in tpm_row]
+    pred_idx  = probs.index(max(probs))
+    pred_state = pred_idx + 1
+    confidence = probs[pred_idx]
+    sorted_idx = sorted(range(3), key=lambda k: probs[k], reverse=True)
+    top2_states = [k + 1 for k in sorted_idx[:2]]
+    top2_names  = [STATE_NAMES[s] for s in top2_states]
+
+    base_date_str   = str(base_date_obj)
+    target_date_str = str(target_date_obj)
+
+    new_pred = f"""const DEFAULT_PREDICTION: Prediction = {{
+  base_date: "{base_date_str}",
+  base_date_formatted: "{format_date(base_date_obj)}",
+  target_date: "{target_date_str}",
+  target_date_formatted: "{format_date(target_date_obj)}",
+  today_date: "{base_date_str}",
+  today_state: {base_state},
+  today_state_name: "{STATE_NAMES[base_state]}",
+  today_regime: "{regime}",
+  today_return: {base_ret_pct},
+  today_flow: {round(net_flow, 2)}, // Auto-synced {date.today()}
+  tomorrow_probs: [{probs[0]}, {probs[1]}, {probs[2]}],
+  predicted_state: {pred_state},
+  predicted_state_name: "{STATE_NAMES[pred_state]}",
+  top2_states: [{top2_states[0]}, {top2_states[1]}],
+  top2_state_names: ["{top2_names[0]}", "{top2_names[1]}"],
+  confidence: {confidence},
+  confidence_pct: "{confidence * 100:.1f}%",
+  transition_formula: "P(X_{{t+1}} | X_t={STATE_NAMES[base_state]}, R_t={regime})",
+}};"""
 
     content = API_TS_PATH.read_text(encoding="utf-8")
-    import re
-    # Replace today_flow line in DEFAULT_PREDICTION
     new_content = re.sub(
-        r'today_flow: [\d\.\-]+,.*\n',
-        f'today_flow: {flow}, // Auto-synced: last regime={regime}\n',
+        r'const DEFAULT_PREDICTION: Prediction = \{.*?\};',
+        new_pred,
         content,
+        flags=re.DOTALL,
         count=1
     )
     API_TS_PATH.write_text(new_content, encoding="utf-8")
-    print(f"DEFAULT_PREDICTION today_flow updated to {flow} (regime={regime})")
+    print(f"DEFAULT_PREDICTION updated: {base_date_str} → {target_date_str}, state={STATE_NAMES[base_state]}, regime={regime}, pred={STATE_NAMES[pred_state]}, conf={confidence*100:.1f}%")
 
 def main():
     print(f"=== Daily Market Sync: {datetime.now().strftime('%Y-%m-%d %H:%M IST')} ===")
@@ -192,11 +248,11 @@ def main():
     LEDGER_PATH.write_text(json.dumps(ledger, indent=2), encoding="utf-8")
     print(f"Saved: {LEDGER_PATH}")
 
-    # 4. Patch api.ts
+    # 4. Patch api.ts accuracy log
     patch_api_ts(ledger)
 
-    # 5. Update today_flow
-    update_default_prediction(ledger)
+    # 5. Update full DEFAULT_PREDICTION (dates, state, regime, probs, flow — everything)
+    update_default_prediction(rows)
 
     print("=== Sync complete ===")
 
