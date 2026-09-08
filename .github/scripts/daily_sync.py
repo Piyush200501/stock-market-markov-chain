@@ -20,12 +20,26 @@ ROOT = Path(__file__).parent.parent.parent
 LEDGER_PATH = ROOT / "backend" / "calibrated_real_ledger.json"
 API_TS_PATH = ROOT / "frontend" / "src" / "lib" / "api.ts"
 
-# ─── Markov Model Constants ────────────────────────────────────────────────────
+# ─── Markov Model Constants (Table 4.7 from Dissertation) ──────────────────────
 THRESHOLD = 0.003  # 0.30%
+# States: 1=Upward, 2=Downward, 3=Stagnant
+# Columns in each row: [P(->Upward), P(->Downward), P(->Stagnant)]
 COND_TPMS = {
-    "SN": [[0.2632, 0.4737, 0.2631], [0.2717, 0.4131, 0.3152], [0.2258, 0.4194, 0.3548]],
-    "N":  [[0.4286, 0.2500, 0.3214], [0.3562, 0.3288, 0.3150], [0.3241, 0.2685, 0.4074]],
-    "SP": [[0.4688, 0.1562, 0.3750], [0.4194, 0.1935, 0.3871], [0.3725, 0.1765, 0.4510]],
+    "SN": [
+        [0.4231, 0.3333, 0.2436],  # From Upward
+        [0.3756, 0.4131, 0.2113],  # From Downward (41.31% Bear Persistence)
+        [0.3661, 0.3571, 0.2768],  # From Stagnant
+    ],
+    "N": [
+        [0.4050, 0.2523, 0.3427],  # From Upward
+        [0.3871, 0.3502, 0.2627],  # From Downward
+        [0.3769, 0.3321, 0.2910],  # From Stagnant
+    ],
+    "SP": [
+        [0.4202, 0.2059, 0.3739],  # From Upward
+        [0.4833, 0.2167, 0.3000],  # From Downward
+        [0.3809, 0.2667, 0.3524],  # From Stagnant
+    ],
 }
 STATE_NAMES = {1: "Upward", 2: "Downward", 3: "Stagnant"}
 P25_FLOW = -432.0

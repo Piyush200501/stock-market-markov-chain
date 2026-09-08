@@ -208,23 +208,23 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-07",
-  base_date_formatted: "Monday, 07 Sep 2026",
-  target_date: "2026-09-08",
-  target_date_formatted: "Tuesday, 08 Sep 2026",
-  today_date: "2026-09-07",
+  base_date: "2026-09-08",
+  base_date_formatted: "Tuesday, 08 Sep 2026",
+  target_date: "2026-09-09",
+  target_date_formatted: "Wednesday, 09 Sep 2026",
+  today_date: "2026-09-08",
   today_state: 2,
   today_state_name: "Downward",
   today_regime: "N",
-  today_return: -0.004973,
-  today_flow: 846.89, // Real NSE FII+DII flow 2026-09-07
-  tomorrow_probs: [0.3562, 0.3288, 0.315],
+  today_return: -0.006076,
+  today_flow: 608.73, // Real NSE FII+DII flow 2026-09-08
+  tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",
   top2_states: [1, 2],
   top2_state_names: ["Upward", "Downward"],
-  confidence: 0.3562,
-  confidence_pct: "35.6%",
+  confidence: 0.3871,
+  confidence_pct: "38.7%",
   transition_formula: "P(X_{t+1} | X_t=Downward, R_t=N)",
 };
 
@@ -236,19 +236,19 @@ const DEFAULT_BASELINE_TPM: TPM = [
 
 const DEFAULT_CONDITIONAL_TPMS: { SN: TPM; N: TPM; SP: TPM } = {
   SN: [
-    [0.2632, 0.4737, 0.2631],
-    [0.2717, 0.4131, 0.3152],
-    [0.2258, 0.4194, 0.3548],
+    [0.4231, 0.3333, 0.2436],
+    [0.3756, 0.4131, 0.2113],
+    [0.3661, 0.3571, 0.2768],
   ],
   N: [
-    [0.4286, 0.2500, 0.3214],
-    [0.3562, 0.3288, 0.3150],
-    [0.3241, 0.2685, 0.4074],
+    [0.4050, 0.2523, 0.3427],
+    [0.3871, 0.3502, 0.2627],
+    [0.3769, 0.3321, 0.2910],
   ],
   SP: [
-    [0.4688, 0.1562, 0.3750],
-    [0.4194, 0.1935, 0.3871],
-    [0.3725, 0.1765, 0.4510],
+    [0.4202, 0.2059, 0.3739],
+    [0.4833, 0.2167, 0.3000],
+    [0.3809, 0.2667, 0.3524],
   ],
 };
 
@@ -282,19 +282,19 @@ const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
     ],
     conditional_tpms: {
       SN: [
-        [0.2632, 0.4737, 0.2631],
-        [0.2717, 0.4131, 0.3152],
-        [0.2258, 0.4194, 0.3548],
+        [0.4231, 0.3333, 0.2436],
+        [0.3756, 0.4131, 0.2113],
+        [0.3661, 0.3571, 0.2768],
       ],
       N: [
-        [0.4286, 0.2500, 0.3214],
-        [0.3562, 0.3288, 0.3150],
-        [0.3241, 0.2685, 0.4074],
+        [0.4050, 0.2523, 0.3427],
+        [0.3871, 0.3502, 0.2627],
+        [0.3769, 0.3321, 0.2910],
       ],
       SP: [
-        [0.4688, 0.1562, 0.3750],
-        [0.4194, 0.1935, 0.3871],
-        [0.3725, 0.1765, 0.4510],
+        [0.4202, 0.2059, 0.3739],
+        [0.4833, 0.2167, 0.3000],
+        [0.3809, 0.2667, 0.3524],
       ],
     },
     steady_state: [0.3642, 0.3088, 0.3270],
@@ -470,24 +470,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
   {
-    "base_date": "2026-07-06",
-    "target_date": "2026-07-07",
-    "date": "2026-07-07",
-    "base_state": 1,
-    "base_state_name": "Upward",
-    "base_return_pct": 0.655,
-    "regime": "SP",
-    "net_flow": 4034.45,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": -0.13,
-    "probs": [0.4688, 0.1562, 0.375],
-    "correct_top1": false,
-    "correct_top2": true
-  },
-  {
     "base_date": "2026-07-07",
     "target_date": "2026-07-08",
     "date": "2026-07-08",
@@ -496,14 +478,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.13,
     "regime": "N",
     "net_flow": 9.76,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -2.14,
-    "probs": [0.3241, 0.2685, 0.4074],
+    "probs": [0.3769, 0.3321, 0.291],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-08",
@@ -519,7 +501,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.338,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -537,7 +519,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.014,
-    "probs": [0.4286, 0.25, 0.3214],
+    "probs": [0.405, 0.2523, 0.3427],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -555,7 +537,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.017,
-    "probs": [0.4688, 0.1562, 0.375],
+    "probs": [0.4202, 0.2059, 0.3739],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -568,13 +550,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.017,
     "regime": "SN",
     "net_flow": -890.57,
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.659,
-    "probs": [0.2258, 0.4194, 0.3548],
-    "correct_top1": true,
+    "probs": [0.3661, 0.3571, 0.2768],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -591,7 +573,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.11,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -604,14 +586,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.11,
     "regime": "N",
     "net_flow": -30.9,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.024,
-    "probs": [0.3241, 0.2685, 0.4074],
-    "correct_top1": true,
-    "correct_top2": true
+    "probs": [0.3769, 0.3321, 0.291],
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-07-16",
@@ -622,14 +604,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.024,
     "regime": "SN",
     "net_flow": -1219.15,
-    "predicted_state": 2,
-    "predicted_state_name": "Downward",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.081,
-    "probs": [0.2258, 0.4194, 0.3548],
-    "correct_top1": false,
-    "correct_top2": false
+    "probs": [0.3661, 0.3571, 0.2768],
+    "correct_top1": true,
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-17",
@@ -645,7 +627,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.394,
-    "probs": [0.4286, 0.25, 0.3214],
+    "probs": [0.405, 0.2523, 0.3427],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -663,7 +645,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.21,
-    "probs": [0.3562, 0.3288, 0.315],
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -676,14 +658,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.21,
     "regime": "N",
     "net_flow": 993.28,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.795,
-    "probs": [0.3241, 0.2685, 0.4074],
+    "probs": [0.3769, 0.3321, 0.291],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-07-22",
@@ -699,7 +681,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.529,
-    "probs": [0.2717, 0.4131, 0.3152],
+    "probs": [0.3756, 0.4131, 0.2113],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -717,7 +699,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.429,
-    "probs": [0.3562, 0.3288, 0.315],
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -735,7 +717,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.957,
-    "probs": [0.3562, 0.3288, 0.315],
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -753,7 +735,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.044,
-    "probs": [0.4286, 0.25, 0.3214],
+    "probs": [0.405, 0.2523, 0.3427],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -766,13 +748,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.044,
     "regime": "SP",
     "net_flow": 2419.49,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.098,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": false,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": true,
     "correct_top2": true
   },
   {
@@ -789,7 +771,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.276,
-    "probs": [0.4688, 0.1562, 0.375],
+    "probs": [0.4202, 0.2059, 0.3739],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -802,14 +784,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.276,
     "regime": "N",
     "net_flow": 1759.48,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.273,
-    "probs": [0.3241, 0.2685, 0.4074],
-    "correct_top1": true,
-    "correct_top2": true
+    "probs": [0.3769, 0.3321, 0.291],
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-07-31",
@@ -820,13 +802,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.273,
     "regime": "SP",
     "net_flow": 2537.85,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 1.59,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": false,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": true,
     "correct_top2": true
   },
   {
@@ -843,7 +825,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.645,
-    "probs": [0.4688, 0.1562, 0.375],
+    "probs": [0.4202, 0.2059, 0.3739],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -861,7 +843,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.04,
-    "probs": [0.3562, 0.3288, 0.315],
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -874,13 +856,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.04,
     "regime": "SP",
     "net_flow": 1939.75,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.046,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": true,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -892,13 +874,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.046,
     "regime": "SP",
     "net_flow": 3995.74,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.266,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": true,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -910,14 +892,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.266,
     "regime": "N",
     "net_flow": 715.8,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.054,
-    "probs": [0.3241, 0.2685, 0.4074],
-    "correct_top1": true,
-    "correct_top2": true
+    "probs": [0.3769, 0.3321, 0.291],
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-10",
@@ -928,14 +910,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.054,
     "regime": "N",
     "net_flow": 684.47,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.457,
-    "probs": [0.3241, 0.2685, 0.4074],
+    "probs": [0.3769, 0.3321, 0.291],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-08-11",
@@ -951,7 +933,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.146,
-    "probs": [0.3562, 0.3288, 0.315],
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -964,13 +946,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.146,
     "regime": "SP",
     "net_flow": 4839.16,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.164,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": true,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -982,13 +964,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.164,
     "regime": "SP",
     "net_flow": 3842.4,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.122,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": true,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -1000,14 +982,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.122,
     "regime": "N",
     "net_flow": 864.52,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.322,
-    "probs": [0.3241, 0.2685, 0.4074],
+    "probs": [0.3769, 0.3321, 0.291],
     "correct_top1": false,
-    "correct_top2": false
+    "correct_top2": true
   },
   {
     "base_date": "2026-08-17",
@@ -1023,7 +1005,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.548,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1041,7 +1023,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.318,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1059,7 +1041,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.636,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -1077,7 +1059,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.083,
-    "probs": [0.4688, 0.1562, 0.375],
+    "probs": [0.4202, 0.2059, 0.3739],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -1090,14 +1072,14 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.083,
     "regime": "N",
     "net_flow": 1581.43,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.136,
-    "probs": [0.3241, 0.2685, 0.4074],
-    "correct_top1": true,
-    "correct_top2": true
+    "probs": [0.3769, 0.3321, 0.291],
+    "correct_top1": false,
+    "correct_top2": false
   },
   {
     "base_date": "2026-08-24",
@@ -1108,13 +1090,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.136,
     "regime": "SP",
     "net_flow": 3675.07,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.476,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": false,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": true,
     "correct_top2": true
   },
   {
@@ -1131,7 +1113,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.522,
-    "probs": [0.4286, 0.25, 0.3214],
+    "probs": [0.405, 0.2523, 0.3427],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1149,7 +1131,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.484,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1167,7 +1149,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 1,
     "actual_state_name": "Upward",
     "actual_return_pct": 0.351,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": true,
     "correct_top2": true
   },
@@ -1185,7 +1167,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.395,
-    "probs": [0.4286, 0.25, 0.3214],
+    "probs": [0.405, 0.2523, 0.3427],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1203,9 +1185,9 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.102,
-    "probs": [0.2717, 0.4131, 0.3152],
+    "probs": [0.3756, 0.4131, 0.2113],
     "correct_top1": false,
-    "correct_top2": true
+    "correct_top2": false
   },
   {
     "base_date": "2026-09-01",
@@ -1216,12 +1198,12 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.102,
     "regime": "SP",
     "net_flow": 2990.32,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.589,
-    "probs": [0.3725, 0.1765, 0.451],
+    "probs": [0.3809, 0.2667, 0.3524],
     "correct_top1": false,
     "correct_top2": false
   },
@@ -1239,7 +1221,7 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": -0.172,
-    "probs": [0.4194, 0.1935, 0.3871],
+    "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": false,
     "correct_top2": true
   },
@@ -1252,13 +1234,13 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": -0.172,
     "regime": "SP",
     "net_flow": 2631.59,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 3,
     "actual_state_name": "Stagnant",
     "actual_return_pct": 0.102,
-    "probs": [0.3725, 0.1765, 0.451],
-    "correct_top1": true,
+    "probs": [0.3809, 0.2667, 0.3524],
+    "correct_top1": false,
     "correct_top2": true
   },
   {
@@ -1270,14 +1252,32 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "base_return_pct": 0.102,
     "regime": "SP",
     "net_flow": 5818.18,
-    "predicted_state": 3,
-    "predicted_state_name": "Stagnant",
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.497,
-    "probs": [0.3725, 0.1765, 0.451],
+    "probs": [0.3809, 0.2667, 0.3524],
     "correct_top1": false,
     "correct_top2": false
+  },
+  {
+    "base_date": "2026-09-07",
+    "target_date": "2026-09-08",
+    "date": "2026-09-08",
+    "base_state": 2,
+    "base_state_name": "Downward",
+    "base_return_pct": -0.497,
+    "regime": "N",
+    "net_flow": 846.89,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -0.608,
+    "probs": [0.3871, 0.3502, 0.2627],
+    "correct_top1": false,
+    "correct_top2": true
   }
 ];
 
