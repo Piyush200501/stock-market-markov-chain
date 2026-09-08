@@ -209,16 +209,16 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-08",
-  base_date_formatted: "Tuesday, 08 Sep 2026",
-  target_date: "2026-09-09",
-  target_date_formatted: "Wednesday, 09 Sep 2026",
-  today_date: "2026-09-08",
+  base_date: "2026-09-07",
+  base_date_formatted: "Monday, 07 Sep 2026",
+  target_date: "2026-09-08",
+  target_date_formatted: "Tuesday, 08 Sep 2026",
+  today_date: "2026-09-07",
   today_state: 2,
   today_state_name: "Downward",
   today_regime: "N",
-  today_return: -0.006076,
-  today_flow: 608.73, // Real NSE FII+DII flow 2026-09-08
+  today_return: -0.004973,
+  today_flow: 846.89, // Real NSE FII+DII flow 2026-09-08
   tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",

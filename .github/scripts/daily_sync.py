@@ -112,14 +112,9 @@ def fetch_all_fii_dii() -> dict:
 
     return flows
 
-def get_flow_for_date(flows: dict, date_str: str, log_return: float, idx: int) -> float:
-    """Return real NSE flow for date, or realistic calibrated estimate if missing."""
-    if date_str in flows:
-        return flows[date_str]
-    rng = np.random.default_rng(seed=abs(int(log_return * 1e6)) + idx)
-    fii = float(rng.normal(-120.0, 1450.0) + log_return * 85000.0)
-    dii = float(rng.normal(1250.0, 850.0) - log_return * 25000.0)
-    return round(fii + dii, 2)
+def get_flow_for_date(flows: dict, date_str: str) -> float | None:
+    """Return real NSE flow for date from official NSE data."""
+    return flows.get(date_str, None)
 
 def fetch_nifty(days: int = 70) -> list:
     """Fetch last N calendar days of Nifty 50 data."""
@@ -155,7 +150,9 @@ def build_ledger(rows: list, flows: dict) -> list:
         base_state   = get_state(base_ret)
         actual_state = get_state(target_ret)
 
-        net_flow = get_flow_for_date(flows, base_date, base_ret, i)
+        net_flow = get_flow_for_date(flows, base_date)
+        if net_flow is None:
+            continue
         regime   = get_regime(net_flow)
 
         tpm_row  = COND_TPMS[regime][base_state - 1]
@@ -243,19 +240,34 @@ def format_date(d: date) -> str:
 def update_default_prediction(rows: list, flows: dict):
     """
     Fully update DEFAULT_PREDICTION in api.ts using the latest trading day's data and real NSE flow.
-    Updates: base_date, target_date, state, regime, return, flow, probs, confidence.
+    If NSE has not yet released today's FII/DII data (releases ~18:15-18:30 IST),
+    it strictly uses the latest trading session that has confirmed official NSE flows.
     """
     import re
 
-    # Latest completed trading day
-    last  = rows[-1]
+    # Filter rows that have confirmed real official NSE flows
+    valid_rows = [r for r in rows if str(r["Date"]) in flows]
+    if not valid_rows:
+        print("ERROR: No rows match available official NSE flows!")
+        return
+
+    last = valid_rows[-1]
+    latest_nifty_date = str(rows[-1]["Date"])
+    last_verified_date = str(last["Date"])
+
+    if latest_nifty_date != last_verified_date:
+        print(f"[Notice] Nifty 50 has traded on {latest_nifty_date}, but official NSE FII/DII data is not yet published.")
+        print(f"[Notice] NSE publishes daily FII/DII at ~18:15-18:30 IST. Using latest session with verified official flows: {last_verified_date}.")
+    else:
+        print(f"[Success] Official NSE FII/DII flow found for {last_verified_date}: {flows[last_verified_date]} Cr")
+
     base_date_obj = last["Date"] if isinstance(last["Date"], date) else date.fromisoformat(str(last["Date"]))
     base_ret      = float(last["log_return"])
     base_state    = get_state(base_ret)
     base_ret_pct  = round(base_ret * 100, 6)
 
     # Real NSE net flow for last day
-    net_flow   = get_flow_for_date(flows, str(base_date_obj), base_ret, len(rows) - 1)
+    net_flow   = flows[str(base_date_obj)]
     regime     = get_regime(net_flow)
 
     # Next trading day forecast
