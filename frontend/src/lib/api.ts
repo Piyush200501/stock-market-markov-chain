@@ -229,9 +229,9 @@ const DEFAULT_PREDICTION: Prediction = {
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
-  [0.4129, 0.2836, 0.3035],
-  [0.3421, 0.3614, 0.2965],
-  [0.3150, 0.2950, 0.3900],
+  [0.4129, 0.2449, 0.3422],
+  [0.3939, 0.3612, 0.2449],
+  [0.3753, 0.3237, 0.3010],
 ];
 
 const DEFAULT_CONDITIONAL_TPMS: { SN: TPM; N: TPM; SP: TPM } = {
@@ -253,16 +253,16 @@ const DEFAULT_CONDITIONAL_TPMS: { SN: TPM; N: TPM; SP: TPM } = {
 };
 
 const DEFAULT_MFPT: number[][] = [
-  [2.56, 3.42, 2.95],
-  [2.78, 3.12, 2.91],
-  [2.85, 3.38, 2.65],
+  [2.53, 3.69, 3.17],
+  [2.57, 3.29, 3.52],
+  [2.62, 3.41, 3.33],
 ];
 
 const DEFAULT_STEADY_STATE = {
-  baseline: [0.3642, 0.3088, 0.3270],
-  SN: [0.2541, 0.4320, 0.3139],
-  N: [0.3745, 0.2785, 0.3470],
-  SP: [0.4285, 0.2306, 0.3409],
+  baseline: [0.3958, 0.3039, 0.3003],
+  SN: [0.3919, 0.3684, 0.2397],
+  N: [0.3910, 0.3064, 0.3025],
+  SP: [0.4210, 0.2296, 0.3494],
 };
 
 const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
@@ -276,9 +276,9 @@ const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
     calendar_span: "April 2018 – October 2024 / Full Macro Cycle",
     description: "Encompasses pre-COVID baseline, March 2020 crash, liquidity surge, and 2022-2024 rate hike regime. Proves non-random Markovian persistence over a complete multi-year market cycle.",
     tpm: [
-      [0.4129, 0.2836, 0.3035],
-      [0.3421, 0.3614, 0.2965],
-      [0.3150, 0.2950, 0.3900],
+      [0.4129, 0.2449, 0.3422],
+      [0.3939, 0.3612, 0.2449],
+      [0.3753, 0.3237, 0.3010],
     ],
     conditional_tpms: {
       SN: [
@@ -297,24 +297,24 @@ const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
         [0.3809, 0.2667, 0.3524],
       ],
     },
-    steady_state: [0.3642, 0.3088, 0.3270],
+    steady_state: [0.3958, 0.3039, 0.3003],
     steady_state_conditional: {
-      SN: [0.2541, 0.4320, 0.3139],
-      N: [0.3745, 0.2785, 0.3470],
-      SP: [0.4285, 0.2306, 0.3409],
+      SN: [0.3919, 0.3684, 0.2397],
+      N: [0.3910, 0.3064, 0.3025],
+      SP: [0.4210, 0.2296, 0.3494],
     },
     mfpt: [
-      [2.56, 3.42, 2.95],
-      [2.78, 3.12, 2.91],
-      [2.85, 3.38, 2.65],
+      [2.53, 3.69, 3.17],
+      [2.57, 3.29, 3.52],
+      [2.62, 3.41, 3.33],
     ],
-    sojourn_times: { Upward: 1.703, Downward: 1.566, Stagnant: 1.639 },
+    sojourn_times: { Upward: 1.703, Downward: 1.565, Stagnant: 1.431 },
     p11: 0.4129,
-    p22: 0.3614,
-    p33: 0.3900,
+    p22: 0.3612,
+    p33: 0.3010,
     p25_flow: -432.0,
     p75_flow: 1860.0,
-    sp_bear_collapse_pct: 23.06,
+    sp_bear_collapse_pct: 22.96,
     sn_bear_persistence_pct: 41.31,
   },
   "5.0y": {
@@ -1365,20 +1365,71 @@ export const api = {
       {
         baseline_tpm: DEFAULT_BASELINE_TPM,
         conditional_tpms: DEFAULT_CONDITIONAL_TPMS,
-        state_distribution: [0.3642, 0.3088, 0.3270],
+        state_distribution: [0.3958, 0.3039, 0.3003],
         threshold_sweep: {
-          "0.0020": { threshold_pct: 0.20, tpm: [[0.44, 0.31, 0.25], [0.36, 0.39, 0.25], [0.33, 0.31, 0.36]], dist: [0.42, 0.37, 0.21], p11: 0.44, p22: 0.39, p33: 0.36 },
-          "0.0025": { threshold_pct: 0.25, tpm: [[0.42, 0.29, 0.29], [0.35, 0.37, 0.28], [0.32, 0.30, 0.38]], dist: [0.39, 0.34, 0.27], p11: 0.42, p22: 0.37, p33: 0.38 },
-          "0.0030": { threshold_pct: 0.30, tpm: DEFAULT_BASELINE_TPM, dist: [0.3642, 0.3088, 0.3270], p11: 0.4129, p22: 0.3614, p33: 0.3900 },
-          "0.0035": { threshold_pct: 0.35, tpm: [[0.39, 0.27, 0.34], [0.33, 0.34, 0.33], [0.30, 0.28, 0.42]], dist: [0.33, 0.28, 0.39], p11: 0.39, p22: 0.34, p33: 0.42 },
-          "0.0040": { threshold_pct: 0.40, tpm: [[0.37, 0.25, 0.38], [0.31, 0.32, 0.37], [0.28, 0.26, 0.46]], dist: [0.29, 0.25, 0.46], p11: 0.37, p22: 0.32, p33: 0.46 },
+          "0.0020": {
+            threshold_pct: 0.20,
+            tpm: [
+              [0.4694, 0.2972, 0.2333],
+              [0.4214, 0.4179, 0.1607],
+              [0.4428, 0.3373, 0.2199],
+            ],
+            dist: [0.4473, 0.3474, 0.2053],
+            p11: 0.4694,
+            p22: 0.4179,
+            p33: 0.2199,
+          },
+          "0.0025": {
+            threshold_pct: 0.25,
+            tpm: [
+              [0.4362, 0.2774, 0.2864],
+              [0.4019, 0.3867, 0.2114],
+              [0.4116, 0.3269, 0.2615],
+            ],
+            dist: [0.4187, 0.3256, 0.2556],
+            p11: 0.4362,
+            p22: 0.3867,
+            p33: 0.2615,
+          },
+          "0.0030": {
+            threshold_pct: 0.30,
+            tpm: DEFAULT_BASELINE_TPM,
+            dist: [0.3958, 0.3039, 0.3003],
+            p11: 0.4129,
+            p22: 0.3612,
+            p33: 0.3010,
+          },
+          "0.0035": {
+            threshold_pct: 0.35,
+            tpm: [
+              [0.3940, 0.2219, 0.3841],
+              [0.3834, 0.3442, 0.2723],
+              [0.3479, 0.3042, 0.3479],
+            ],
+            dist: [0.3753, 0.2847, 0.3400],
+            p11: 0.3940,
+            p22: 0.3442,
+            p33: 0.3479,
+          },
+          "0.0040": {
+            threshold_pct: 0.40,
+            tpm: [
+              [0.3719, 0.2053, 0.4228],
+              [0.3834, 0.3118, 0.3048],
+              [0.3169, 0.2972, 0.3859],
+            ],
+            dist: [0.3542, 0.2686, 0.3772],
+            p11: 0.3719,
+            p22: 0.3118,
+            p33: 0.3859,
+          },
         },
         regime_counts: { SP: 172, N: 343, SN: 172 },
         sojourn_times: {
-          baseline: { Upward: 1.70, Downward: 1.57, Stagnant: 1.64 },
-          SN: { Upward: 1.36, Downward: 1.70, Stagnant: 1.55 },
-          N: { Upward: 1.75, Downward: 1.49, Stagnant: 1.69 },
-          SP: { Upward: 1.88, Downward: 1.24, Stagnant: 1.82 },
+          baseline: { Upward: 1.703, Downward: 1.565, Stagnant: 1.431 },
+          SN: { Upward: 1.733, Downward: 1.704, Stagnant: 1.383 },
+          N: { Upward: 1.681, Downward: 1.539, Stagnant: 1.410 },
+          SP: { Upward: 1.725, Downward: 1.277, Stagnant: 1.544 },
         },
         meta: DEFAULT_META,
       }
@@ -1392,10 +1443,10 @@ export const api = {
         steady_state: DEFAULT_STEADY_STATE,
         mfpt: DEFAULT_MFPT,
         sojourn_times: {
-          baseline: { Upward: 1.70, Downward: 1.57, Stagnant: 1.64 },
-          SN: { Upward: 1.36, Downward: 1.70, Stagnant: 1.55 },
-          N: { Upward: 1.75, Downward: 1.49, Stagnant: 1.69 },
-          SP: { Upward: 1.88, Downward: 1.24, Stagnant: 1.82 },
+          baseline: { Upward: 1.703, Downward: 1.565, Stagnant: 1.431 },
+          SN: { Upward: 1.733, Downward: 1.704, Stagnant: 1.383 },
+          N: { Upward: 1.681, Downward: 1.539, Stagnant: 1.410 },
+          SP: { Upward: 1.725, Downward: 1.277, Stagnant: 1.544 },
         },
         state_distribution: [0.3642, 0.3088, 0.3270],
         meta: DEFAULT_META,

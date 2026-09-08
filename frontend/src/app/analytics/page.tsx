@@ -38,9 +38,9 @@ export default function AnalyticsPage() {
     calendar_span: "April 2018 – October 2024 / Full Macro Cycle",
     description: "Encompasses pre-COVID baseline, March 2020 crash, liquidity surge, and 2022-2024 rate hike regime. Proves non-random Markovian persistence over a complete multi-year market cycle.",
     tpm: [
-      [0.4129, 0.2836, 0.3035],
-      [0.3421, 0.3614, 0.2965],
-      [0.3150, 0.2950, 0.3900],
+      [0.4129, 0.2449, 0.3422],
+      [0.3939, 0.3612, 0.2449],
+      [0.3753, 0.3237, 0.3010],
     ],
     conditional_tpms: {
       SN: [
@@ -59,34 +59,34 @@ export default function AnalyticsPage() {
         [0.3809, 0.2667, 0.3524],
       ],
     },
-    steady_state: [0.3642, 0.3088, 0.3270],
+    steady_state: [0.3958, 0.3039, 0.3003],
     steady_state_conditional: {
-      SN: [0.2541, 0.4320, 0.3139],
-      N: [0.3745, 0.2785, 0.3470],
-      SP: [0.4285, 0.2306, 0.3409],
+      SN: [0.3919, 0.3684, 0.2397],
+      N: [0.3910, 0.3064, 0.3025],
+      SP: [0.4210, 0.2296, 0.3494],
     },
     mfpt: [
-      [2.56, 3.42, 2.95],
-      [2.78, 3.12, 2.91],
-      [2.85, 3.38, 2.65],
+      [2.53, 3.69, 3.17],
+      [2.57, 3.29, 3.52],
+      [2.62, 3.41, 3.33],
     ],
-    sojourn_times: { Upward: 1.703, Downward: 1.566, Stagnant: 1.639 },
+    sojourn_times: { Upward: 1.703, Downward: 1.565, Stagnant: 1.431 },
     p11: 0.4129,
-    p22: 0.3614,
-    p33: 0.3900,
+    p22: 0.3612,
+    p33: 0.3010,
     p25_flow: -432.0,
     p75_flow: 1860.0,
-    sp_bear_collapse_pct: 23.06,
+    sp_bear_collapse_pct: 22.96,
     sn_bear_persistence_pct: 41.31,
   };
 
   const currentSweep = ctpmData?.threshold_sweep?.[selectedThreshold] || {
     threshold_pct: 0.30,
-    tpm: ctpmData?.baseline_tpm || [[0.4129, 0.2836, 0.3035], [0.3421, 0.3614, 0.2965], [0.3150, 0.2950, 0.3900]],
-    dist: [0.3642, 0.3088, 0.3270],
+    tpm: ctpmData?.baseline_tpm || [[0.4129, 0.2449, 0.3422], [0.3939, 0.3612, 0.2449], [0.3753, 0.3237, 0.3010]],
+    dist: [0.3958, 0.3039, 0.3003],
     p11: 0.4129,
-    p22: 0.3614,
-    p33: 0.3900,
+    p22: 0.3612,
+    p33: 0.3010,
   };
 
   const allHorizons = horizonsData?.horizons || {
