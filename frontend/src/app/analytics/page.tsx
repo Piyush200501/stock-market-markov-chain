@@ -10,6 +10,7 @@ export default function AnalyticsPage() {
   const [selectedHorizon, setSelectedHorizon] = useState<"6.5y" | "5.0y" | "2.5y">("6.5y");
   const [selectedThreshold, setSelectedThreshold] = useState("0.0030");
   const [ckStep, setCkStep] = useState("1");
+  const [mfptRegime, setMfptRegime] = useState<"baseline" | "SP" | "SN">("SP");
 
   useEffect(() => {
     loadData();
@@ -484,44 +485,154 @@ export default function AnalyticsPage() {
 
             {/* Mean First Passage Time (MFPT) Matrix */}
             <div className="glass" style={{ padding: 28 }}>
-              <div className="section-label" style={{ marginBottom: 12 }}>PASSAGE TIMES</div>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10, marginBottom: 12 }}>
+                <div className="section-label">TABLE 4.8: PASSAGE TIMES</div>
+                <div className="segmented-control" style={{ padding: 2 }}>
+                  <button
+                    onClick={() => setMfptRegime("SP")}
+                    className={`segmented-btn ${mfptRegime === "SP" ? "active" : ""}`}
+                    style={{ fontSize: "0.72rem", padding: "4px 10px" }}
+                  >
+                    SP Regime (Bull)
+                  </button>
+                  <button
+                    onClick={() => setMfptRegime("SN")}
+                    className={`segmented-btn ${mfptRegime === "SN" ? "active" : ""}`}
+                    style={{ fontSize: "0.72rem", padding: "4px 10px" }}
+                  >
+                    SN Regime (Bear)
+                  </button>
+                  <button
+                    onClick={() => setMfptRegime("baseline")}
+                    className={`segmented-btn ${mfptRegime === "baseline" ? "active" : ""}`}
+                    style={{ fontSize: "0.72rem", padding: "4px 10px" }}
+                  >
+                    Baseline
+                  </button>
+                </div>
+              </div>
+
               <h3 style={{ fontSize: "1.2rem", color: "var(--ink)", marginBottom: 16 }}>
-                Mean First Passage Time Matrix (M in Trading Days)
+                {mfptRegime === "SP" && "Table 4.8: Conditional MFPT under Strong Positive (SP)"}
+                {mfptRegime === "SN" && "Table 4.8: Conditional MFPT under Strong Negative (SN)"}
+                {mfptRegime === "baseline" && "Baseline Unconditional MFPT Matrix (M in Trading Days)"}
               </h3>
 
-              <table className="tpm-table" style={{ marginBottom: 20 }}>
-                <thead>
-                  <tr>
-                    <th style={{ textAlign: "left" }}>From \ To</th>
-                    <th>&rarr; Upward</th>
-                    <th>&rarr; Downward</th>
-                    <th>&rarr; Stagnant</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td style={{ textAlign: "left", fontWeight: 600, color: "var(--up)" }}>Upward &rarr;</td>
-                    <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[0]?.[0]} d (Recur)</td>
-                    <td>{activeHorizon.mfpt[0]?.[1]} days</td>
-                    <td>{activeHorizon.mfpt[0]?.[2]} days</td>
-                  </tr>
-                  <tr>
-                    <td style={{ textAlign: "left", fontWeight: 600, color: "var(--down)" }}>Downward &rarr;</td>
-                    <td style={{ color: "var(--up)", fontWeight: 700 }}>{activeHorizon.mfpt[1]?.[0]} days</td>
-                    <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[1]?.[1]} d (Recur)</td>
-                    <td>{activeHorizon.mfpt[1]?.[2]} days</td>
-                  </tr>
-                  <tr>
-                    <td style={{ textAlign: "left", fontWeight: 600, color: "var(--stagnant)" }}>Stagnant &rarr;</td>
-                    <td style={{ color: "var(--up)" }}>{activeHorizon.mfpt[2]?.[0]} days</td>
-                    <td>{activeHorizon.mfpt[2]?.[1]} days</td>
-                    <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[2]?.[2]} d (Recur)</td>
-                  </tr>
-                </tbody>
-              </table>
+              {mfptRegime === "SP" && (
+                <table className="tpm-table" style={{ marginBottom: 20 }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: "left" }}>Origin State</th>
+                      <th>To Upward (U)</th>
+                      <th>To Downward (D)</th>
+                      <th>To Stable (S)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--up)" }}>Upward (U)</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                      <td style={{ color: "var(--down)", fontWeight: 700, background: "rgba(225,29,72,0.08)" }}>4.65 days</td>
+                      <td>2.82 days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--down)" }}>Downward (D)</td>
+                      <td style={{ color: "var(--up)", fontWeight: 700, background: "rgba(16,185,129,0.12)" }}>2.15 days</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                      <td>3.12 days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--stagnant)" }}>Stable (S)</td>
+                      <td style={{ color: "var(--up)" }}>2.45 days</td>
+                      <td>3.91 days</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+
+              {mfptRegime === "SN" && (
+                <table className="tpm-table" style={{ marginBottom: 20 }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: "left" }}>Origin State</th>
+                      <th>To Upward (U)</th>
+                      <th>To Downward (D)</th>
+                      <th>To Stable (S)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--up)" }}>Upward (U)</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                      <td style={{ color: "var(--down)", fontWeight: 700, background: "rgba(225,29,72,0.15)" }}>2.88 days</td>
+                      <td>4.14 days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--down)" }}>Downward (D)</td>
+                      <td style={{ color: "var(--up)", fontWeight: 700 }}>2.72 days</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                      <td>4.41 days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--stagnant)" }}>Stable (S)</td>
+                      <td style={{ color: "var(--up)" }}>2.59 days</td>
+                      <td>2.65 days</td>
+                      <td style={{ color: "var(--ink-3)" }}>0</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
+
+              {mfptRegime === "baseline" && (
+                <table className="tpm-table" style={{ marginBottom: 20 }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: "left" }}>From \ To</th>
+                      <th>&rarr; Upward</th>
+                      <th>&rarr; Downward</th>
+                      <th>&rarr; Stagnant</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--up)" }}>Upward &rarr;</td>
+                      <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[0]?.[0]} d (Recur)</td>
+                      <td>{activeHorizon.mfpt[0]?.[1]} days</td>
+                      <td>{activeHorizon.mfpt[0]?.[2]} days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--down)" }}>Downward &rarr;</td>
+                      <td style={{ color: "var(--up)", fontWeight: 700 }}>{activeHorizon.mfpt[1]?.[0]} days</td>
+                      <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[1]?.[1]} d (Recur)</td>
+                      <td>{activeHorizon.mfpt[1]?.[2]} days</td>
+                    </tr>
+                    <tr>
+                      <td style={{ textAlign: "left", fontWeight: 600, color: "var(--stagnant)" }}>Stagnant &rarr;</td>
+                      <td style={{ color: "var(--up)" }}>{activeHorizon.mfpt[2]?.[0]} days</td>
+                      <td>{activeHorizon.mfpt[2]?.[1]} days</td>
+                      <td style={{ color: "var(--accent)", fontWeight: 700 }}>{activeHorizon.mfpt[2]?.[2]} d (Recur)</td>
+                    </tr>
+                  </tbody>
+                </table>
+              )}
 
               <div style={{ fontSize: "0.78rem", color: "var(--ink-2)", lineHeight: 1.5 }}>
-                Computed via fundamental matrix Z = (I - P + 1 &middot; &pi;)<sup>-1</sup>. Expected time to recover from a Downward day back to an Upward rally is only <strong>{activeHorizon.mfpt[1]?.[0]} trading days</strong>.
+                {mfptRegime === "SP" && (
+                  <>
+                    <strong style={{ color: "var(--up)" }}>The DII Shock Absorber in Action:</strong> Under institutional accumulation (SP), bear market bounces back to Upward in just <strong>2.15 trading days</strong>, while downward collapses are resisted up to <strong>4.65 trading days</strong>.
+                  </>
+                )}
+                {mfptRegime === "SN" && (
+                  <>
+                    <strong style={{ color: "var(--down)" }}>Vulnerability under Outflows:</strong> Under heavy net selling (SN), an upward rally collapses into a downward slide in just <strong>2.88 trading days</strong>, and recovery takes longer (<strong>2.72 trading days</strong>).
+                  </>
+                )}
+                {mfptRegime === "baseline" && (
+                  <>
+                    Computed via fundamental matrix Z = (I - P + 1 &middot; &pi;)<sup>-1</sup>. Expected time to recover from a Downward day back to an Upward rally is <strong>{activeHorizon.mfpt[1]?.[0]} trading days</strong>.
+                  </>
+                )}
               </div>
             </div>
 

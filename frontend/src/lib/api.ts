@@ -178,6 +178,7 @@ export interface HorizonItem {
   steady_state: number[];
   steady_state_conditional: { SN: number[]; N: number[]; SP: number[] };
   mfpt: number[][];
+  conditional_mfpt?: { SP: number[][]; SN: number[][] };
   sojourn_times: { Upward: number; Downward: number; Stagnant: number };
   sojourn_conditional?: Record<string, { Upward: number; Downward: number; Stagnant: number }>;
   p11: number;
@@ -258,6 +259,19 @@ const DEFAULT_MFPT: number[][] = [
   [2.62, 3.41, 3.33],
 ];
 
+const DEFAULT_CONDITIONAL_MFPT: { SP: number[][]; SN: number[][] } = {
+  SP: [
+    [0, 4.65, 2.82],   // From Upward -> [To Upward, To Downward, To Stagnant]
+    [2.15, 0, 3.12],   // From Downward -> [To Upward, To Downward, To Stagnant]
+    [2.45, 3.91, 0],   // From Stagnant -> [To Upward, To Downward, To Stagnant]
+  ],
+  SN: [
+    [0, 2.88, 4.14],   // From Upward -> [To Upward, To Downward, To Stagnant]
+    [2.72, 0, 4.41],   // From Downward -> [To Upward, To Downward, To Stagnant]
+    [2.59, 2.65, 0],   // From Stagnant -> [To Upward, To Downward, To Stagnant]
+  ],
+};
+
 const DEFAULT_STEADY_STATE = {
   baseline: [0.3958, 0.3039, 0.3003],
   SN: [0.3919, 0.3684, 0.2397],
@@ -308,6 +322,7 @@ const DEFAULT_HORIZONS: Record<string, HorizonItem> = {
       [2.57, 3.29, 3.52],
       [2.62, 3.41, 3.33],
     ],
+    conditional_mfpt: DEFAULT_CONDITIONAL_MFPT,
     sojourn_times: { Upward: 1.703, Downward: 1.565, Stagnant: 1.431 },
     p11: 0.4129,
     p22: 0.3612,
