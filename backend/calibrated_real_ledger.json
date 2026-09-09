@@ -1,27 +1,5 @@
 [
   {
-    "base_date": "2026-07-07",
-    "target_date": "2026-07-08",
-    "date": "2026-07-08",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": -0.13,
-    "regime": "N",
-    "net_flow": 9.76,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -2.14,
-    "probs": [
-      0.3769,
-      0.3321,
-      0.291
-    ],
-    "correct_top1": false,
-    "correct_top2": true
-  },
-  {
     "base_date": "2026-07-08",
     "target_date": "2026-07-09",
     "date": "2026-07-09",
@@ -981,6 +959,28 @@
     "actual_state": 2,
     "actual_state_name": "Downward",
     "actual_return_pct": -0.608,
+    "probs": [
+      0.3871,
+      0.3502,
+      0.2627
+    ],
+    "correct_top1": false,
+    "correct_top2": true
+  },
+  {
+    "base_date": "2026-09-08",
+    "target_date": "2026-09-09",
+    "date": "2026-09-09",
+    "base_state": 2,
+    "base_state_name": "Downward",
+    "base_return_pct": -0.608,
+    "regime": "N",
+    "net_flow": 1226.45,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -0.865,
     "probs": [
       0.3871,
       0.3502,
