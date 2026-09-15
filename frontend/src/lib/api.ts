@@ -209,16 +209,16 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-11",
-  base_date_formatted: "Friday, 11 Sep 2026",
-  target_date: "2026-09-14",
-  target_date_formatted: "Monday, 14 Sep 2026",
-  today_date: "2026-09-11",
+  base_date: "2026-09-15",
+  base_date_formatted: "Tuesday, 15 Sep 2026",
+  target_date: "2026-09-16",
+  target_date_formatted: "Wednesday, 16 Sep 2026",
+  today_date: "2026-09-15",
   today_state: 2,
   today_state_name: "Downward",
   today_regime: "N",
-  today_return: -0.003401,
-  today_flow: 1037.27, // Real NSE FII+DII flow 2026-09-14
+  today_return: -0.012017,
+  today_flow: -291.81, // Real NSE FII+DII flow 2026-09-15
   tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",
@@ -484,24 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-07-10",
-    "target_date": "2026-07-13",
-    "date": "2026-07-13",
-    "base_state": 1,
-    "base_state_name": "Upward",
-    "base_return_pct": 1.014,
-    "regime": "SP",
-    "net_flow": 4623.4,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": 0.017,
-    "probs": [0.4202, 0.2059, 0.3739],
-    "correct_top1": false,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-07-13",
     "target_date": "2026-07-14",
@@ -1291,6 +1273,24 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_state_name": "Downward",
     "actual_return_pct": -0.34,
     "probs": [0.3769, 0.3321, 0.291],
+    "correct_top1": false,
+    "correct_top2": true
+  },
+  {
+    "base_date": "2026-09-11",
+    "target_date": "2026-09-15",
+    "date": "2026-09-15",
+    "base_state": 2,
+    "base_state_name": "Downward",
+    "base_return_pct": -0.34,
+    "regime": "N",
+    "net_flow": 1037.27,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -1.202,
+    "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
     "correct_top2": true
   }
