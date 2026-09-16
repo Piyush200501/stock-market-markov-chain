@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-15",
-  base_date_formatted: "Tuesday, 15 Sep 2026",
-  target_date: "2026-09-16",
-  target_date_formatted: "Wednesday, 16 Sep 2026",
-  today_date: "2026-09-15",
-  today_state: 2,
-  today_state_name: "Downward",
-  today_regime: "N",
-  today_return: -0.012017,
-  today_flow: -291.81, // Real NSE FII+DII flow 2026-09-15
-  tomorrow_probs: [0.3871, 0.3502, 0.2627],
+  base_date: "2026-09-16",
+  base_date_formatted: "Wednesday, 16 Sep 2026",
+  target_date: "2026-09-17",
+  target_date_formatted: "Thursday, 17 Sep 2026",
+  today_date: "2026-09-16",
+  today_state: 1,
+  today_state_name: "Upward",
+  today_regime: "SP",
+  today_return: 0.004273,
+  today_flow: 1875.62, // Real NSE FII+DII flow 2026-09-16
+  tomorrow_probs: [0.4202, 0.2059, 0.3739],
   predicted_state: 1,
   predicted_state_name: "Upward",
-  top2_states: [1, 2],
-  top2_state_names: ["Upward", "Downward"],
-  confidence: 0.3871,
-  confidence_pct: "38.7%",
-  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=N)",
+  top2_states: [1, 3],
+  top2_state_names: ["Upward", "Stagnant"],
+  confidence: 0.4202,
+  confidence_pct: "42.0%",
+  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=SP)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -484,24 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-07-13",
-    "target_date": "2026-07-14",
-    "date": "2026-07-14",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.017,
-    "regime": "SN",
-    "net_flow": -890.57,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.659,
-    "probs": [0.3661, 0.3571, 0.2768],
-    "correct_top1": false,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-07-14",
     "target_date": "2026-07-15",
@@ -1292,6 +1274,24 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "actual_return_pct": -1.202,
     "probs": [0.3871, 0.3502, 0.2627],
     "correct_top1": false,
+    "correct_top2": true
+  },
+  {
+    "base_date": "2026-09-15",
+    "target_date": "2026-09-16",
+    "date": "2026-09-16",
+    "base_state": 2,
+    "base_state_name": "Downward",
+    "base_return_pct": -1.202,
+    "regime": "N",
+    "net_flow": -291.81,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 1,
+    "actual_state_name": "Upward",
+    "actual_return_pct": 0.427,
+    "probs": [0.3871, 0.3502, 0.2627],
+    "correct_top1": true,
     "correct_top2": true
   }
 ];
