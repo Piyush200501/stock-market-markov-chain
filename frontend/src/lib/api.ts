@@ -218,7 +218,7 @@ const DEFAULT_PREDICTION: Prediction = {
   today_state_name: "Upward",
   today_regime: "SN",
   today_return: 0.00335,
-  today_flow: -855.76, // Real NSE FII+DII flow 2026-09-25
+  today_flow: -855.76, // Real NSE FII+DII flow 2026-09-28
   tomorrow_probs: [0.4231, 0.3333, 0.2436],
   predicted_state: 1,
   predicted_state_name: "Upward",
