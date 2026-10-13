@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-30",
-  base_date_formatted: "Wednesday, 30 Sep 2026",
-  target_date: "2026-10-01",
-  target_date_formatted: "Thursday, 01 Oct 2026",
-  today_date: "2026-09-30",
-  today_state: 2,
-  today_state_name: "Downward",
+  base_date: "2026-10-13",
+  base_date_formatted: "Tuesday, 13 Oct 2026",
+  target_date: "2026-10-14",
+  target_date_formatted: "Wednesday, 14 Oct 2026",
+  today_date: "2026-10-13",
+  today_state: 1,
+  today_state_name: "Upward",
   today_regime: "N",
-  today_return: -0.004224,
-  today_flow: 1123.32, // Real NSE FII+DII flow 2026-10-12
-  tomorrow_probs: [0.3871, 0.3502, 0.2627],
+  today_return: 0.015908,
+  today_flow: 1134.11, // Real NSE FII+DII flow 2026-10-13
+  tomorrow_probs: [0.405, 0.2523, 0.3427],
   predicted_state: 1,
   predicted_state_name: "Upward",
-  top2_states: [1, 2],
-  top2_state_names: ["Upward", "Downward"],
-  confidence: 0.3871,
-  confidence_pct: "38.7%",
-  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=N)",
+  top2_states: [1, 3],
+  top2_state_names: ["Upward", "Stagnant"],
+  confidence: 0.405,
+  confidence_pct: "40.5%",
+  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=N)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -484,24 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-07-30",
-    "target_date": "2026-07-31",
-    "date": "2026-07-31",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.276,
-    "regime": "N",
-    "net_flow": 1759.48,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": 0.273,
-    "probs": [0.3769, 0.3321, 0.291],
-    "correct_top1": false,
-    "correct_top2": false
-  },
   {
     "base_date": "2026-07-31",
     "target_date": "2026-08-03",
