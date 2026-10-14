@@ -209,16 +209,16 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-09-30",
-  base_date_formatted: "Wednesday, 30 Sep 2026",
-  target_date: "2026-10-01",
-  target_date_formatted: "Thursday, 01 Oct 2026",
-  today_date: "2026-09-30",
+  base_date: "2026-10-14",
+  base_date_formatted: "Wednesday, 14 Oct 2026",
+  target_date: "2026-10-15",
+  target_date_formatted: "Thursday, 15 Oct 2026",
+  today_date: "2026-10-14",
   today_state: 2,
   today_state_name: "Downward",
   today_regime: "N",
-  today_return: -0.004224,
-  today_flow: 1123.32, // Real NSE FII+DII flow 2026-10-13
+  today_return: -0.004378,
+  today_flow: 813.0, // Real NSE FII+DII flow 2026-10-14
   tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",
@@ -484,24 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-07-31",
-    "target_date": "2026-08-03",
-    "date": "2026-08-03",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.273,
-    "regime": "SP",
-    "net_flow": 2537.85,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 1,
-    "actual_state_name": "Upward",
-    "actual_return_pct": 1.59,
-    "probs": [0.3809, 0.2667, 0.3524],
-    "correct_top1": true,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-08-03",
     "target_date": "2026-08-04",
