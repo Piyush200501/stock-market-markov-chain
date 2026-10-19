@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-10-16",
-  base_date_formatted: "Friday, 16 Oct 2026",
-  target_date: "2026-10-19",
-  target_date_formatted: "Monday, 19 Oct 2026",
-  today_date: "2026-10-16",
-  today_state: 1,
-  today_state_name: "Upward",
-  today_regime: "SN",
-  today_return: 0.00645,
-  today_flow: -2495.36, // Real NSE FII+DII flow 2026-10-16
-  tomorrow_probs: [0.4231, 0.3333, 0.2436],
+  base_date: "2026-09-30",
+  base_date_formatted: "Wednesday, 30 Sep 2026",
+  target_date: "2026-10-01",
+  target_date_formatted: "Thursday, 01 Oct 2026",
+  today_date: "2026-09-30",
+  today_state: 2,
+  today_state_name: "Downward",
+  today_regime: "N",
+  today_return: -0.004224,
+  today_flow: 1123.32, // Real NSE FII+DII flow 2026-10-19
+  tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",
   top2_states: [1, 2],
   top2_state_names: ["Upward", "Downward"],
-  confidence: 0.4231,
-  confidence_pct: "42.3%",
-  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=SN)",
+  confidence: 0.3871,
+  confidence_pct: "38.7%",
+  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=N)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -484,42 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-08-04",
-    "target_date": "2026-08-05",
-    "date": "2026-08-05",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.645,
-    "regime": "N",
-    "net_flow": 1510.33,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": 0.04,
-    "probs": [0.3871, 0.3502, 0.2627],
-    "correct_top1": false,
-    "correct_top2": false
-  },
-  {
-    "base_date": "2026-08-05",
-    "target_date": "2026-08-06",
-    "date": "2026-08-06",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.04,
-    "regime": "SP",
-    "net_flow": 1939.75,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": 0.046,
-    "probs": [0.3809, 0.2667, 0.3524],
-    "correct_top1": false,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-08-06",
     "target_date": "2026-08-07",
