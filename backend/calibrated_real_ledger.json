@@ -1,27 +1,5 @@
 [
   {
-    "base_date": "2026-08-06",
-    "target_date": "2026-08-07",
-    "date": "2026-08-07",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.046,
-    "regime": "SP",
-    "net_flow": 3995.74,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": -0.266,
-    "probs": [
-      0.3809,
-      0.2667,
-      0.3524
-    ],
-    "correct_top1": false,
-    "correct_top2": true
-  },
-  {
     "base_date": "2026-08-07",
     "target_date": "2026-08-10",
     "date": "2026-08-10",
