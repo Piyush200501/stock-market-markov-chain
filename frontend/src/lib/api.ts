@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-10-21",
-  base_date_formatted: "Wednesday, 21 Oct 2026",
-  target_date: "2026-10-22",
-  target_date_formatted: "Thursday, 22 Oct 2026",
-  today_date: "2026-10-21",
+  base_date: "2026-10-22",
+  base_date_formatted: "Thursday, 22 Oct 2026",
+  target_date: "2026-10-23",
+  target_date_formatted: "Friday, 23 Oct 2026",
+  today_date: "2026-10-22",
   today_state: 2,
   today_state_name: "Downward",
-  today_regime: "SP",
-  today_return: -0.003396,
-  today_flow: 2636.64, // Real NSE FII+DII flow 2026-10-21
-  tomorrow_probs: [0.4833, 0.2167, 0.3],
-  predicted_state: 1,
-  predicted_state_name: "Upward",
-  top2_states: [1, 3],
-  top2_state_names: ["Upward", "Stagnant"],
-  confidence: 0.4833,
-  confidence_pct: "48.3%",
-  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SP)",
+  today_regime: "SN",
+  today_return: -0.005437,
+  today_flow: -567.38, // Real NSE FII+DII flow 2026-10-22
+  tomorrow_probs: [0.3756, 0.4131, 0.2113],
+  predicted_state: 2,
+  predicted_state_name: "Downward",
+  top2_states: [2, 1],
+  top2_state_names: ["Downward", "Upward"],
+  confidence: 0.4131,
+  confidence_pct: "41.3%",
+  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SN)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -484,24 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-08-10",
-    "target_date": "2026-08-11",
-    "date": "2026-08-11",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.054,
-    "regime": "N",
-    "net_flow": 684.47,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.457,
-    "probs": [0.3769, 0.3321, 0.291],
-    "correct_top1": false,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-08-11",
     "target_date": "2026-08-12",
