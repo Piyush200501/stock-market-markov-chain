@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-10-22",
-  base_date_formatted: "Thursday, 22 Oct 2026",
-  target_date: "2026-10-23",
-  target_date_formatted: "Friday, 23 Oct 2026",
-  today_date: "2026-10-22",
+  base_date: "2026-10-23",
+  base_date_formatted: "Friday, 23 Oct 2026",
+  target_date: "2026-10-26",
+  target_date_formatted: "Monday, 26 Oct 2026",
+  today_date: "2026-10-23",
   today_state: 2,
   today_state_name: "Downward",
-  today_regime: "SN",
-  today_return: -0.005437,
-  today_flow: -567.38, // Real NSE FII+DII flow 2026-10-22
-  tomorrow_probs: [0.3756, 0.4131, 0.2113],
-  predicted_state: 2,
-  predicted_state_name: "Downward",
-  top2_states: [2, 1],
-  top2_state_names: ["Downward", "Upward"],
-  confidence: 0.4131,
-  confidence_pct: "41.3%",
-  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SN)",
+  today_regime: "SP",
+  today_return: -0.003871,
+  today_flow: 4123.01, // Real NSE FII+DII flow 2026-10-23
+  tomorrow_probs: [0.4833, 0.2167, 0.3],
+  predicted_state: 1,
+  predicted_state_name: "Upward",
+  top2_states: [1, 3],
+  top2_state_names: ["Upward", "Stagnant"],
+  confidence: 0.4833,
+  confidence_pct: "48.3%",
+  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SP)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
