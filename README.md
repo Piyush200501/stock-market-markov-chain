@@ -87,13 +87,7 @@ stock-market-markov-chain/
 └── README.md
 ```
 
-### Deploying the website
 
-The site in `docs/index.html` is a single self-contained file (no build
-step). To publish it with GitHub Pages: **Settings → Pages → Deploy from a
-branch → main → /docs**. It'll be live at
-`https://<Piyush200501>.github.io/stock-market-markov-chain/` within a
-minute or two.
 
 ## Getting Started
 
