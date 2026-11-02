@@ -218,7 +218,7 @@ const DEFAULT_PREDICTION: Prediction = {
   today_state_name: "Downward",
   today_regime: "N",
   today_return: -0.004224,
-  today_flow: 1123.32, // Real NSE FII+DII flow 2026-10-30
+  today_flow: 1123.32, // Real NSE FII+DII flow 2026-11-02
   tomorrow_probs: [0.3871, 0.3502, 0.2627],
   predicted_state: 1,
   predicted_state_name: "Upward",
@@ -484,42 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-08-18",
-    "target_date": "2026-08-19",
-    "date": "2026-08-19",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.548,
-    "regime": "SP",
-    "net_flow": 4230.84,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.318,
-    "probs": [0.4833, 0.2167, 0.3],
-    "correct_top1": false,
-    "correct_top2": false
-  },
-  {
-    "base_date": "2026-08-19",
-    "target_date": "2026-08-20",
-    "date": "2026-08-20",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.318,
-    "regime": "SP",
-    "net_flow": 4381.71,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 1,
-    "actual_state_name": "Upward",
-    "actual_return_pct": 0.636,
-    "probs": [0.4833, 0.2167, 0.3],
-    "correct_top1": true,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-08-20",
     "target_date": "2026-08-21",
