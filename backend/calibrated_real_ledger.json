@@ -1,27 +1,5 @@
 [
   {
-    "base_date": "2026-08-28",
-    "target_date": "2026-08-31",
-    "date": "2026-08-31",
-    "base_state": 1,
-    "base_state_name": "Upward",
-    "base_return_pct": 0.351,
-    "regime": "N",
-    "net_flow": 144.13,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.395,
-    "probs": [
-      0.405,
-      0.2523,
-      0.3427
-    ],
-    "correct_top1": false,
-    "correct_top2": false
-  },
-  {
     "base_date": "2026-08-31",
     "target_date": "2026-09-01",
     "date": "2026-09-01",
