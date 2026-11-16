@@ -1,49 +1,5 @@
 [
   {
-    "base_date": "2026-09-01",
-    "target_date": "2026-09-02",
-    "date": "2026-09-02",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": -0.102,
-    "regime": "SP",
-    "net_flow": 2990.32,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.589,
-    "probs": [
-      0.3809,
-      0.2667,
-      0.3524
-    ],
-    "correct_top1": false,
-    "correct_top2": false
-  },
-  {
-    "base_date": "2026-09-02",
-    "target_date": "2026-09-03",
-    "date": "2026-09-03",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.589,
-    "regime": "SP",
-    "net_flow": 9501.35,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": -0.172,
-    "probs": [
-      0.4833,
-      0.2167,
-      0.3
-    ],
-    "correct_top1": false,
-    "correct_top2": true
-  },
-  {
     "base_date": "2026-09-03",
     "target_date": "2026-09-04",
     "date": "2026-09-04",
@@ -743,6 +699,28 @@
       0.4202,
       0.2059,
       0.3739
+    ],
+    "correct_top1": false,
+    "correct_top2": true
+  },
+  {
+    "base_date": "2026-11-12",
+    "target_date": "2026-11-13",
+    "date": "2026-11-13",
+    "base_state": 3,
+    "base_state_name": "Stagnant",
+    "base_return_pct": 0.175,
+    "regime": "N",
+    "net_flow": 1499.43,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -0.615,
+    "probs": [
+      0.3769,
+      0.3321,
+      0.291
     ],
     "correct_top1": false,
     "correct_top2": true
