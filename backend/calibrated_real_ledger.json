@@ -614,5 +614,27 @@
     ],
     "correct_top1": true,
     "correct_top2": true
+  },
+  {
+    "base_date": "2026-11-20",
+    "target_date": "2026-11-23",
+    "date": "2026-11-23",
+    "base_state": 1,
+    "base_state_name": "Upward",
+    "base_return_pct": 1.116,
+    "regime": "SP",
+    "net_flow": 5448.62,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -1.763,
+    "probs": [
+      0.4202,
+      0.2059,
+      0.3739
+    ],
+    "correct_top1": false,
+    "correct_top2": false
   }
 ]

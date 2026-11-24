@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-11-20",
-  base_date_formatted: "Friday, 20 Nov 2026",
-  target_date: "2026-11-23",
-  target_date_formatted: "Monday, 23 Nov 2026",
-  today_date: "2026-11-20",
-  today_state: 1,
-  today_state_name: "Upward",
+  base_date: "2026-11-23",
+  base_date_formatted: "Monday, 23 Nov 2026",
+  target_date: "2026-11-24",
+  target_date_formatted: "Tuesday, 24 Nov 2026",
+  today_date: "2026-11-23",
+  today_state: 2,
+  today_state_name: "Downward",
   today_regime: "SP",
-  today_return: 0.011159,
-  today_flow: 5448.62, // Real NSE FII+DII flow 2026-11-24
-  tomorrow_probs: [0.4202, 0.2059, 0.3739],
+  today_return: -0.017633,
+  today_flow: 2912.87, // Real NSE FII+DII flow 2026-11-24
+  tomorrow_probs: [0.4833, 0.2167, 0.3],
   predicted_state: 1,
   predicted_state_name: "Upward",
   top2_states: [1, 3],
   top2_state_names: ["Upward", "Stagnant"],
-  confidence: 0.4202,
-  confidence_pct: "42.0%",
-  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=SP)",
+  confidence: 0.4833,
+  confidence_pct: "48.3%",
+  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SP)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -987,6 +987,24 @@ const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
     "probs": [0.4833, 0.2167, 0.3],
     "correct_top1": true,
     "correct_top2": true
+  },
+  {
+    "base_date": "2026-11-20",
+    "target_date": "2026-11-23",
+    "date": "2026-11-23",
+    "base_state": 1,
+    "base_state_name": "Upward",
+    "base_return_pct": 1.116,
+    "regime": "SP",
+    "net_flow": 5448.62,
+    "predicted_state": 1,
+    "predicted_state_name": "Upward",
+    "actual_state": 2,
+    "actual_state_name": "Downward",
+    "actual_return_pct": -1.763,
+    "probs": [0.4202, 0.2059, 0.3739],
+    "correct_top1": false,
+    "correct_top2": false
   }
 ];
 
