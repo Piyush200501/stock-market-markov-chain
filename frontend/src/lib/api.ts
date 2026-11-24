@@ -209,24 +209,24 @@ const DEFAULT_META: ModelMeta = {
 };
 
 const DEFAULT_PREDICTION: Prediction = {
-  base_date: "2026-11-13",
-  base_date_formatted: "Friday, 13 Nov 2026",
-  target_date: "2026-11-16",
-  target_date_formatted: "Monday, 16 Nov 2026",
-  today_date: "2026-11-13",
-  today_state: 2,
-  today_state_name: "Downward",
+  base_date: "2026-11-20",
+  base_date_formatted: "Friday, 20 Nov 2026",
+  target_date: "2026-11-23",
+  target_date_formatted: "Monday, 23 Nov 2026",
+  today_date: "2026-11-20",
+  today_state: 1,
+  today_state_name: "Upward",
   today_regime: "SP",
-  today_return: -0.006147,
-  today_flow: 3482.97, // Real NSE FII+DII flow 2026-11-20
-  tomorrow_probs: [0.4833, 0.2167, 0.3],
+  today_return: 0.011159,
+  today_flow: 5448.62, // Real NSE FII+DII flow 2026-11-24
+  tomorrow_probs: [0.4202, 0.2059, 0.3739],
   predicted_state: 1,
   predicted_state_name: "Upward",
   top2_states: [1, 3],
   top2_state_names: ["Upward", "Stagnant"],
-  confidence: 0.4833,
-  confidence_pct: "48.3%",
-  transition_formula: "P(X_{t+1} | X_t=Downward, R_t=SP)",
+  confidence: 0.4202,
+  confidence_pct: "42.0%",
+  transition_formula: "P(X_{t+1} | X_t=Upward, R_t=SP)",
 };
 
 const DEFAULT_BASELINE_TPM: TPM = [
@@ -484,60 +484,6 @@ function generateFallbackFlowSeries(days = 60): FlowPoint[] {
 }
 
 const CALIBRATED_ACCURACY_LOG: AccuracyEntry[] = [
-  {
-    "base_date": "2026-09-08",
-    "target_date": "2026-09-09",
-    "date": "2026-09-09",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.608,
-    "regime": "N",
-    "net_flow": 1226.45,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.865,
-    "probs": [0.3871, 0.3502, 0.2627],
-    "correct_top1": false,
-    "correct_top2": true
-  },
-  {
-    "base_date": "2026-09-09",
-    "target_date": "2026-09-10",
-    "date": "2026-09-10",
-    "base_state": 2,
-    "base_state_name": "Downward",
-    "base_return_pct": -0.865,
-    "regime": "N",
-    "net_flow": 926.05,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 3,
-    "actual_state_name": "Stagnant",
-    "actual_return_pct": 0.197,
-    "probs": [0.3871, 0.3502, 0.2627],
-    "correct_top1": false,
-    "correct_top2": false
-  },
-  {
-    "base_date": "2026-09-10",
-    "target_date": "2026-09-11",
-    "date": "2026-09-11",
-    "base_state": 3,
-    "base_state_name": "Stagnant",
-    "base_return_pct": 0.197,
-    "regime": "N",
-    "net_flow": 587.61,
-    "predicted_state": 1,
-    "predicted_state_name": "Upward",
-    "actual_state": 2,
-    "actual_state_name": "Downward",
-    "actual_return_pct": -0.34,
-    "probs": [0.3769, 0.3321, 0.291],
-    "correct_top1": false,
-    "correct_top2": true
-  },
   {
     "base_date": "2026-09-11",
     "target_date": "2026-09-15",
